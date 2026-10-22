@@ -3,15 +3,17 @@ interface SectionHeadingProps {
   title: string;
   subtitle?: string;
   accent?: string;
-  align?: "left" | "center";
-  size?: "default" | "large" | "xl";
+  align?: "left" | "center" | "right";
+  size?: "sm" | "default" | "large" | "xl";
+  badge?: string;
   className?: string;
 }
 
 const sizeMap = {
-  default: "clamp(2.5rem, 5vw, 4rem)",
-  large: "clamp(3.5rem, 7vw, 6rem)",
-  xl: "clamp(5rem, 10vw, 9rem)",
+  sm: "clamp(1.75rem, 3vw, 2.5rem)",
+  default: "clamp(2.25rem, 4.5vw, 3.75rem)",
+  large: "clamp(3rem, 6.5vw, 5rem)",
+  xl: "clamp(4rem, 8.5vw, 7.5rem)",
 };
 
 export default function SectionHeading({
@@ -21,18 +23,35 @@ export default function SectionHeading({
   accent = "var(--clr-branding)",
   align = "left",
   size = "default",
+  badge,
   className = "",
 }: SectionHeadingProps) {
-  const textAlign = align === "center" ? "center" : "left";
-  const accentLine = align === "center" ? "0 auto" : "0 auto 0 0";
+  const isCenter = align === "center";
+  const isRight = align === "right";
+  const textAlign = isCenter ? "center" : isRight ? "right" : "left";
+  const justify = isCenter ? "center" : isRight ? "flex-end" : "flex-start";
 
   return (
     <div
       className={className}
-      style={{ textAlign, display: "flex", flexDirection: "column", gap: "1rem" }}
+      style={{
+        textAlign,
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.875rem",
+        alignItems: isCenter ? "center" : isRight ? "flex-end" : "flex-start",
+      }}
     >
-      {eyebrow && (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", justifyContent: align === "center" ? "center" : "flex-start" }}>
+      {/* Eyebrow & optional badge */}
+      {(eyebrow || badge) && (
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            justifyContent: justify,
+          }}
+        >
           <span
             style={{
               display: "block",
@@ -42,21 +61,42 @@ export default function SectionHeading({
               flexShrink: 0,
             }}
           />
-          <span
-            style={{
-              fontFamily: "var(--font-fine)",
-              fontSize: "var(--text-xs)",
-              fontWeight: 600,
-              letterSpacing: "var(--tracking-label)",
-              textTransform: "uppercase",
-              color: accent,
-            }}
-          >
-            {eyebrow}
-          </span>
+          {eyebrow && (
+            <span
+              style={{
+                fontFamily: "var(--font-fine)",
+                fontSize: "var(--text-xs)",
+                fontWeight: 700,
+                letterSpacing: "var(--tracking-label)",
+                textTransform: "uppercase",
+                color: accent,
+              }}
+            >
+              {eyebrow}
+            </span>
+          )}
+          {badge && (
+            <span
+              style={{
+                fontFamily: "var(--font-fine)",
+                fontSize: "0.625rem",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: accent,
+                backgroundColor: `${accent}18`,
+                border: `1px solid ${accent}40`,
+                padding: "0.15rem 0.5rem",
+                borderRadius: "var(--radius-xs)",
+              }}
+            >
+              {badge}
+            </span>
+          )}
         </div>
       )}
 
+      {/* Main Title */}
       <h2
         style={{
           fontFamily: "var(--font-display)",
@@ -66,32 +106,22 @@ export default function SectionHeading({
           letterSpacing: "var(--tracking-display)",
           color: "var(--text-primary)",
           margin: 0,
+          maxWidth: isCenter ? "22ch" : "18ch",
         }}
       >
         {title}
       </h2>
 
-      {!eyebrow && (
-        <div
-          style={{
-            width: "3rem",
-            height: "3px",
-            backgroundColor: accent,
-            borderRadius: "2px",
-            margin: accentLine,
-          }}
-        />
-      )}
-
+      {/* Subtitle */}
       {subtitle && (
         <p
           style={{
             fontFamily: "var(--font-body)",
-            fontSize: "clamp(1rem, 1.5vw, 1.125rem)",
+            fontSize: "clamp(0.9375rem, 1.4vw, 1.0625rem)",
             lineHeight: "var(--leading-relaxed)",
             color: "var(--text-secondary)",
-            maxWidth: align === "center" ? "52ch" : "60ch",
-            margin: align === "center" ? "0 auto" : undefined,
+            maxWidth: isCenter ? "56ch" : "50ch",
+            margin: isCenter ? "0 auto" : 0,
           }}
         >
           {subtitle}

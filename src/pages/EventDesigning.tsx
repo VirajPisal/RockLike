@@ -42,6 +42,10 @@ export default function EventDesigning() {
           <div className="ed-hero__glow" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Event Designing" }]} accent={ACC} />
+        </div>
+
         <div className="container ed-hero__inner">
           <div className="ed-hero__left">
             <Eyebrow>Event Designing</Eyebrow>
@@ -78,10 +82,6 @@ export default function EventDesigning() {
           </div>
         </div>
       </section>
-
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Event Designing" }]} accent={ACC} />
-      </div>
 
       {/* ══ SERVICES ══ */}
       <section className="ed-services section">

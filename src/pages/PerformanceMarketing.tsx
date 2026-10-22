@@ -184,6 +184,10 @@ export default function PerformanceMarketing() {
           <div className="pm-hero__glow pm-hero__glow--tl" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Performance Marketing" }]} accent={ACC} />
+        </div>
+
         <div className="container pm-hero__inner">
           <div className="pm-hero__left">
             <Eyebrow>Performance Marketing &amp; Growth</Eyebrow>
@@ -262,11 +266,6 @@ export default function PerformanceMarketing() {
           </div>
         </div>
       </section>
-
-      {/* Breadcrumbs */}
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Performance Marketing" }]} accent={ACC} />
-      </div>
 
       {/* ══════════════════════════════════════════
           9 SERVICE TILES

@@ -48,6 +48,16 @@ export default function Branding() {
           <div className="bd-hero__glow bd-hero__glow--br" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs
+            items={[
+              { label: "Services", href: "/services" },
+              { label: "Branding" },
+            ]}
+            accent={ACC}
+          />
+        </div>
+
         <div className="container bd-hero__inner">
           {/* Left column */}
           <div className="bd-hero__left">
@@ -111,17 +121,6 @@ export default function Branding() {
           </div>
         </div>
       </section>
-
-      {/* Breadcrumbs */}
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs
-          items={[
-            { label: "Services", href: "/services" },
-            { label: "Branding" },
-          ]}
-          accent={ACC}
-        />
-      </div>
 
       {/* ══════════════════════════════════════════
           8-CARD SERVICES GRID

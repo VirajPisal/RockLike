@@ -83,6 +83,10 @@ export default function BrandBuildingStrategies() {
           <div className="bb-hero__grid" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Brand Building & Strategies" }]} accent={ACC} />
+        </div>
+
         <div className="container bb-hero__inner">
           <div className="bb-hero__left">
             <Eyebrow>Brand Building &amp; Strategies</Eyebrow>
@@ -135,11 +139,6 @@ export default function BrandBuildingStrategies() {
           </div>
         </div>
       </section>
-
-      {/* Breadcrumbs */}
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Brand Building & Strategies" }]} accent={ACC} />
-      </div>
 
       {/* ══ STRATEGY SERVICES ══ */}
       <section className="bb-services section">

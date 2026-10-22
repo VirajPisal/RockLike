@@ -112,7 +112,7 @@ function HeroComposition() {
             <div key={i} className="sm-card__cal-col">
               <div className="sm-card__cal-day">{d}</div>
               {[0, 1, 2].map((j) => (
-                <div key={j} className="sm-card__cal-slot" style={{ opacity: Math.random() > 0.4 ? 1 : 0.2, backgroundColor: j === 0 ? ACC : j === 1 ? "rgba(139,92,246,0.4)" : "var(--surface-3)" }} />
+                <div key={j} className="sm-card__cal-slot" style={{ opacity: (i + j) % 2 === 0 ? 1 : 0.35, backgroundColor: j === 0 ? ACC : j === 1 ? "rgba(139,92,246,0.4)" : "var(--surface-3)" }} />
               ))}
             </div>
           ))}
@@ -152,6 +152,10 @@ export default function SocialMediaMarketing() {
           <div className="sm-hero__dots" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Social Media Marketing" }]} accent={ACC} />
+        </div>
+
         <div className="container sm-hero__inner">
           <div className="sm-hero__left">
             <Eyebrow>Social Media Marketing</Eyebrow>
@@ -175,11 +179,6 @@ export default function SocialMediaMarketing() {
           </div>
         </div>
       </section>
-
-      {/* Breadcrumbs */}
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Social Media Marketing" }]} accent={ACC} />
-      </div>
 
       {/* ══ SERVICES GRID ══ */}
       <section className="sm-services section">

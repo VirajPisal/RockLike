@@ -50,6 +50,10 @@ export default function CelebrityManagement() {
           <div className="cm-hero__vignette" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Celebrity Management" }]} accent={ACC} />
+        </div>
+
         <div className="container cm-hero__inner">
           <div className="cm-hero__left">
             <Eyebrow>Celebrity Management</Eyebrow>
@@ -108,10 +112,6 @@ export default function CelebrityManagement() {
           </div>
         </div>
       </section>
-
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Celebrity Management" }]} accent={ACC} />
-      </div>
 
       {/* ══ SERVICES ══ */}
       <section className="cm-services section">

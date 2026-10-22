@@ -1,70 +1,70 @@
 import { type ReactNode, type ButtonHTMLAttributes } from "react";
+import { Link } from "react-router-dom";
 
-type Variant = "primary" | "secondary" | "ghost" | "outline";
-type Size = "sm" | "md" | "lg";
-type Accent = "brand" | "video" | "performance";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "outline";
+export type ButtonSize = "sm" | "md" | "lg";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: Variant;
-  size?: Size;
-  accent?: Accent;
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  accent?: string;
   children: ReactNode;
-  as?: "button" | "a";
+  to?: string;
   href?: string;
   fullWidth?: boolean;
+  className?: string;
 }
-
-const accentColors: Record<Accent, string> = {
-  brand: "var(--clr-branding)",
-  video: "var(--clr-video)",
-  performance: "var(--clr-performance)",
-};
-
-const sizeStyles: Record<Size, string> = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-6 py-3 text-base",
-  lg: "px-8 py-4 text-lg",
-};
 
 export default function Button({
   variant = "primary",
   size = "md",
-  accent = "brand",
+  accent = "var(--clr-branding)",
   children,
-  as: Tag = "button",
+  to,
   href,
   fullWidth = false,
   className = "",
   style,
   ...props
 }: ButtonProps) {
-  const color = accentColors[accent];
+  const isCustomAccent = accent.startsWith("var(") || accent.startsWith("#") || accent.startsWith("rgb");
+  const resolvedAccent = isCustomAccent ? accent : `var(--clr-${accent})`;
+
+  const paddingMap: Record<ButtonSize, { padding: string; fontSize: string }> = {
+    sm: { padding: "0.5rem 1rem", fontSize: "0.75rem" },
+    md: { padding: "0.75rem 1.625rem", fontSize: "0.8125rem" },
+    lg: { padding: "1rem 2.25rem", fontSize: "0.9375rem" },
+  };
 
   const baseStyle: React.CSSProperties = {
     fontFamily: "var(--font-fine)",
     fontWeight: 600,
-    letterSpacing: "var(--tracking-wide)",
-    fontSize: "0.8125rem",
+    letterSpacing: "0.08em",
     textTransform: "uppercase",
     borderRadius: "var(--radius-sm)",
     transition: "all var(--ease-base)",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "0.5rem",
+    gap: "0.625rem",
     cursor: "pointer",
     border: "none",
     textDecoration: "none",
     whiteSpace: "nowrap",
     userSelect: "none",
     width: fullWidth ? "100%" : undefined,
+    position: "relative",
+    overflow: "hidden",
+    boxSizing: "border-box",
+    ...paddingMap[size],
     ...style,
   };
 
-  const variantStyles: Record<Variant, React.CSSProperties> = {
+  const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
     primary: {
-      backgroundColor: color,
-      color: "#fff",
+      backgroundColor: resolvedAccent,
+      color: "#ffffff",
+      boxShadow: `0 4px 20px -2px ${resolvedAccent}40`,
     },
     secondary: {
       backgroundColor: "var(--surface-2)",
@@ -74,27 +74,33 @@ export default function Button({
     ghost: {
       backgroundColor: "transparent",
       color: "var(--text-secondary)",
+      border: "1px solid transparent",
     },
     outline: {
       backgroundColor: "transparent",
-      color: color,
-      border: `1px solid ${color}`,
+      color: "var(--text-primary)",
+      border: `1px solid ${resolvedAccent}60`,
     },
-  };
-
-  const paddingMap: Record<Size, React.CSSProperties> = {
-    sm: { padding: "0.5rem 1rem" },
-    md: { padding: "0.75rem 1.5rem" },
-    lg: { padding: "1rem 2rem" },
   };
 
   const combinedStyle: React.CSSProperties = {
     ...baseStyle,
     ...variantStyles[variant],
-    ...paddingMap[size],
   };
 
-  if (Tag === "a" && href) {
+  if (to) {
+    return (
+      <Link
+        to={to}
+        style={combinedStyle}
+        className={`rock-btn rock-btn--${variant} ${className}`}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  if (href) {
     return (
       <a
         href={href}

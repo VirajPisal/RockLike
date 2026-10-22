@@ -113,9 +113,9 @@ export const services: Service[] = [
     tagline: "Build communities that grow your brand",
     description:
       "Build communities, create conversations and grow your digital presence. We craft scroll-stopping content and growth strategies that turn followers into brand advocates — across every platform that matters.",
-    accent: "#8B5CF6",
-    accentGlow: "rgba(139, 92, 246, 0.14)",
-    accentBorder: "rgba(139, 92, 246, 0.3)",
+    accent: "var(--clr-social)",
+    accentGlow: "var(--clr-social-glow)",
+    accentBorder: "var(--clr-social-border)",
     href: "/services/social-media-marketing",
     highlights: [
       "Content Strategy",
@@ -143,9 +143,9 @@ export const services: Service[] = [
     tagline: "Define your position, build for longevity",
     description:
       "Define your position, strengthen your brand and build for long-term growth. We help businesses move from reactive to strategic — with a clear brand architecture that guides every decision and every dollar.",
-    accent: "#F59E0B",
-    accentGlow: "rgba(245, 158, 11, 0.14)",
-    accentBorder: "rgba(245, 158, 11, 0.3)",
+    accent: "var(--clr-strategy)",
+    accentGlow: "var(--clr-strategy-glow)",
+    accentBorder: "var(--clr-strategy-border)",
     href: "/services/brand-building-strategies",
     highlights: [
       "Brand Positioning",
@@ -173,9 +173,9 @@ export const services: Service[] = [
     tagline: "Connect brands with personalities that create impact",
     description:
       "Connect your brand with personalities that create attention and impact. We identify, negotiate and manage celebrity and influencer partnerships that are strategically matched — not just famous faces.",
-    accent: "#C084FC",
-    accentGlow: "rgba(192, 132, 252, 0.14)",
-    accentBorder: "rgba(192, 132, 252, 0.3)",
+    accent: "var(--clr-celebrity)",
+    accentGlow: "var(--clr-celebrity-glow)",
+    accentBorder: "var(--clr-celebrity-border)",
     href: "/services/celebrity-management",
     highlights: [
       "Talent Discovery",
@@ -203,9 +203,9 @@ export const services: Service[] = [
     tagline: "Transform ideas into immersive experiences",
     description:
       "Transform ideas into immersive experiences people remember. From concept to execution, we design event environments, stage productions and brand activations that leave a lasting impression — and a strong visual story.",
-    accent: "#F97316",
-    accentGlow: "rgba(249, 115, 22, 0.14)",
-    accentBorder: "rgba(249, 115, 22, 0.3)",
+    accent: "var(--clr-events)",
+    accentGlow: "var(--clr-events-glow)",
+    accentBorder: "var(--clr-events-border)",
     href: "/services/event-designing",
     highlights: [
       "Concept & Theme",
@@ -233,9 +233,9 @@ export const services: Service[] = [
     tagline: "Build the foundation for scalable expansion",
     description:
       "Build the strategy, systems and brand foundation for scalable expansion. We help businesses package their model into a franchise-ready system — from strategy and documentation to marketing and launch.",
-    accent: "#0EA5E9",
-    accentGlow: "rgba(14, 165, 233, 0.14)",
-    accentBorder: "rgba(14, 165, 233, 0.3)",
+    accent: "var(--clr-franchise)",
+    accentGlow: "var(--clr-franchise-glow)",
+    accentBorder: "var(--clr-franchise-border)",
     href: "/services/franchise-development",
     highlights: [
       "Franchise Strategy",

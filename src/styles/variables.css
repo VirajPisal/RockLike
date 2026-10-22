@@ -1,14 +1,36 @@
 :root {
-  /* ─── Service accent colors ─── */
+  /* ─── Service accent colors (All 8 services) ─── */
   --clr-branding: #E03535;
   --clr-branding-glow: rgba(224, 53, 53, 0.14);
   --clr-branding-border: rgba(224, 53, 53, 0.3);
+
   --clr-video: #2563EB;
   --clr-video-glow: rgba(37, 99, 235, 0.14);
   --clr-video-border: rgba(37, 99, 235, 0.3);
+
   --clr-performance: #059669;
   --clr-performance-glow: rgba(5, 150, 105, 0.14);
   --clr-performance-border: rgba(5, 150, 105, 0.3);
+
+  --clr-social: #8B5CF6;
+  --clr-social-glow: rgba(139, 92, 246, 0.14);
+  --clr-social-border: rgba(139, 92, 246, 0.3);
+
+  --clr-strategy: #F59E0B;
+  --clr-strategy-glow: rgba(245, 158, 11, 0.14);
+  --clr-strategy-border: rgba(245, 158, 11, 0.3);
+
+  --clr-celebrity: #C084FC;
+  --clr-celebrity-glow: rgba(192, 132, 252, 0.14);
+  --clr-celebrity-border: rgba(192, 132, 252, 0.3);
+
+  --clr-events: #F97316;
+  --clr-events-glow: rgba(249, 115, 22, 0.14);
+  --clr-events-border: rgba(249, 115, 22, 0.3);
+
+  --clr-franchise: #0EA5E9;
+  --clr-franchise-glow: rgba(14, 165, 233, 0.14);
+  --clr-franchise-border: rgba(14, 165, 233, 0.3);
 
   /* ─── Surface hierarchy ─── */
   --surface-0: #0A0A0A;

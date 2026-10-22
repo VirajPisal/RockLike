@@ -18,6 +18,11 @@
   --color-accent-branding: #E03535;
   --color-accent-video: #2563EB;
   --color-accent-performance: #059669;
+  --color-accent-social: #8B5CF6;
+  --color-accent-strategy: #F59E0B;
+  --color-accent-celebrity: #C084FC;
+  --color-accent-events: #F97316;
+  --color-accent-franchise: #0EA5E9;
 
   /* Font families */
   --font-display: 'Barlow Condensed', system-ui, sans-serif;

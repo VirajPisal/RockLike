@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const serviceLinks = [
-  { num: "01", label: "Branding Solutions", href: "/services/branding", accent: "#E03535" },
-  { num: "02", label: "Video Production & Content Creation", href: "/services/video-production", accent: "#2563EB" },
-  { num: "03", label: "Performance Marketing", href: "/services/performance-marketing", accent: "#059669" },
-  { num: "04", label: "Social Media Marketing", href: "/services/social-media-marketing", accent: "#8B5CF6" },
-  { num: "05", label: "Brand Building & Strategies", href: "/services/brand-building-strategies", accent: "#F59E0B" },
-  { num: "06", label: "Celebrity Management", href: "/services/celebrity-management", accent: "#C084FC" },
-  { num: "07", label: "Event Designing", href: "/services/event-designing", accent: "#F97316" },
-  { num: "08", label: "Franchise Development", href: "/services/franchise-development", accent: "#0EA5E9" },
+  { num: "01", label: "Branding Solutions", href: "/services/branding", accent: "var(--clr-branding)" },
+  { num: "02", label: "Video Production & Content Creation", href: "/services/video-production", accent: "var(--clr-video)" },
+  { num: "03", label: "Performance Marketing", href: "/services/performance-marketing", accent: "var(--clr-performance)" },
+  { num: "04", label: "Social Media Marketing", href: "/services/social-media-marketing", accent: "var(--clr-social)" },
+  { num: "05", label: "Brand Building & Strategies", href: "/services/brand-building-strategies", accent: "var(--clr-strategy)" },
+  { num: "06", label: "Celebrity Management", href: "/services/celebrity-management", accent: "var(--clr-celebrity)" },
+  { num: "07", label: "Event Designing", href: "/services/event-designing", accent: "var(--clr-events)" },
+  { num: "08", label: "Franchise Development", href: "/services/franchise-development", accent: "var(--clr-franchise)" },
 ];
 
 const navLinks = [
@@ -61,7 +61,7 @@ export default function Navbar() {
 
   const isActive = (href: string) => {
     if (href === "/") return location.pathname === "/";
-    return location.pathname.startsWith(href);
+    return location.pathname === href || location.pathname.startsWith(href + "/");
   };
 
   return (

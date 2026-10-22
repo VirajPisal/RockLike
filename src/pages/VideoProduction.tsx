@@ -70,6 +70,10 @@ export default function VideoProduction() {
           <div className="vp-hero__glow vp-hero__glow--dark" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Video Production" }]} accent={ACC} />
+        </div>
+
         <div className="container vp-hero__inner">
           <div className="vp-hero__left">
             <Eyebrow>Video Production & Content Creation</Eyebrow>
@@ -124,11 +128,6 @@ export default function VideoProduction() {
           </div>
         </div>
       </section>
-
-      {/* Breadcrumbs */}
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Video Production" }]} accent={ACC} />
-      </div>
 
       {/* ══════════════════════════════════════════
           13 SERVICE TILES

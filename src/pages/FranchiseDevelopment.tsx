@@ -81,6 +81,10 @@ export default function FranchiseDevelopment() {
           <div className="fd-hero__glow fd-hero__glow--tl" />
         </div>
 
+        <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "1.5rem" }}>
+          <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Franchise Development" }]} accent={ACC} />
+        </div>
+
         <div className="container fd-hero__inner">
           <div className="fd-hero__left">
             <Eyebrow>Franchise Development</Eyebrow>
@@ -105,10 +109,6 @@ export default function FranchiseDevelopment() {
           </div>
         </div>
       </section>
-
-      <div className="container" style={{ paddingTop: "2rem", paddingBottom: "0.5rem" }}>
-        <Breadcrumbs items={[{ label: "Services", href: "/services" }, { label: "Franchise Development" }]} accent={ACC} />
-      </div>
 
       {/* ══ SERVICES ══ */}
       <section className="fd-services section">

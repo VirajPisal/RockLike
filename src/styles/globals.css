@@ -74,9 +74,18 @@ img {
   border-radius: var(--radius-xs);
 }
 
-/* ─── Smooth scroll ─── */
+/* ─── Smooth scroll & Navbar offset ─── */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 1.5rem);
+}
+
+section[id],
+div[id],
+h1[id],
+h2[id],
+h3[id] {
+  scroll-margin-top: calc(var(--nav-height) + 1.5rem);
 }
 
 /* ─── Utility: label / eyebrow text ─── */
@@ -137,3 +146,42 @@ html {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ─── Interactive Button Physics ─── */
+.rock-btn {
+  transition: transform var(--ease-fast), box-shadow var(--ease-fast), background-color var(--ease-fast), border-color var(--ease-fast), color var(--ease-fast) !important;
+}
+.rock-btn:hover {
+  transform: translateY(-2px);
+}
+.rock-btn:active {
+  transform: translateY(0);
+}
+.rock-btn svg {
+  transition: transform var(--ease-fast);
+}
+.rock-btn:hover svg {
+  transform: translateX(3px);
+}
+.rock-btn--primary:hover {
+  filter: brightness(1.1);
+}
+.rock-btn--secondary:hover {
+  background-color: var(--surface-3) !important;
+  border-color: var(--border-strong) !important;
+}
+.rock-btn--ghost:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-primary) !important;
+}
+.rock-btn--outline:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ─── Glass & Card Helpers ─── */
+.glass-panel {
+  background-color: rgba(20, 20, 20, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-default);
+}
+
