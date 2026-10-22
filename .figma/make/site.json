@@ -1,0 +1,10 @@
+{
+  "description": "Delivers a premium creative agency website showcasing services like branding, video production, and marketing with a bold, modern design system.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

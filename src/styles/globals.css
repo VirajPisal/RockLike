@@ -1,0 +1,139 @@
+/* ─── Base ─── */
+body {
+  background-color: var(--surface-0);
+  color: var(--text-primary);
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Typography ─── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-snug);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity var(--ease-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--surface-4);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(224, 53, 53, 0.28);
+  color: var(--text-primary);
+}
+
+/* ─── Focus ─── */
+:focus-visible {
+  outline: 2px solid var(--clr-branding);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+/* ─── Smooth scroll ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Utility: label / eyebrow text ─── */
+.label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── Utility: display headline ─── */
+.display {
+  font-family: 'Barlow Condensed', system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+}
+
+/* ─── Utility: container ─── */
+.container {
+  width: 100%;
+  max-width: var(--container-content);
+  margin-inline: auto;
+  padding-inline: var(--grid-gutter);
+}
+
+.container--wide {
+  max-width: var(--container-max);
+}
+
+/* ─── Utility: section padding ─── */
+.section {
+  padding-block: var(--space-section);
+}
+
+.section--sm {
+  padding-block: var(--space-section-sm);
+}
+
+/* ─── Utility: hairline divider ─── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: 0;
+}
+
+/* ─── Utility: visually hidden ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
