@@ -1,103 +1,309 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import SectionHeading from "../components/SectionHeading";
-import Button from "../components/Button";
-import PortfolioCard from "../components/PortfolioCard";
-import { services } from "../data/services";
-import { portfolioItems } from "../data/portfolio";
+import VideoModal from "../components/VideoModal";
+import type { VideoProject } from "../data/videoProduction";
+import {
+  BrandStrategyIcon,
+  ExperienceDesignIcon,
+  TechEngineeringIcon,
+  GrowthMarketingIcon,
+  BrandBuildingIcon,
+  VideoProductionIcon,
+  EventDesigningIcon,
+  FranchiseDevIcon,
+} from "../components/icons/CapabilityIcons";
+
+// ─── Capability Cards Data (Eight Integrated Capabilities) ───
+const capabilities = [
+  {
+    num: "01.",
+    title: "Brand Strategy",
+    description: "Market positioning, competitive intelligence, and brand architecture for venture-scale leaders.",
+    icon: BrandStrategyIcon,
+    href: "/services/branding",
+  },
+  {
+    num: "02.",
+    title: "Experience Design",
+    description: "Immersive digital interfaces, product ecosystems, and high-conversion brand touchpoints.",
+    icon: ExperienceDesignIcon,
+    href: "/services/branding",
+  },
+  {
+    num: "03.",
+    title: "Technology Engineering",
+    description: "Robust full-stack web applications, custom interactive WebGL, and scalable cloud infrastructure.",
+    icon: TechEngineeringIcon,
+    href: "/services/performance-marketing",
+  },
+  {
+    num: "04.",
+    title: "Growth Marketing",
+    description: "Data-driven performance campaigns, programmatic ad buying, and sustainable customer acquisition.",
+    icon: GrowthMarketingIcon,
+    href: "/services/performance-marketing",
+  },
+  {
+    num: "05.",
+    title: "Brand Building",
+    description: "Long-term narrative development, category dominance, and cultural relevance campaigns.",
+    icon: BrandBuildingIcon,
+    href: "/services/brand-building-strategies",
+  },
+  {
+    num: "06.",
+    title: "Cinematic Production",
+    description: "Award-winning commercial films, brand documentaries, high-fashion visuals, and VFX.",
+    icon: VideoProductionIcon,
+    href: "/services/video-production",
+  },
+  {
+    num: "07.",
+    title: "Event Designing",
+    description: "Experiential summits, spatial retail installations, luxury brand launches, and stage productions.",
+    icon: EventDesigningIcon,
+    href: "/services/event-designing",
+  },
+  {
+    num: "08.",
+    title: "Franchise Development",
+    description: "Commercial expansion models, multi-market licensing, and venture partnership syndication.",
+    icon: FranchiseDevIcon,
+    href: "/services/franchise-development",
+  },
+];
+
+// ─── Selected Work Items for Cinematic Slider ───
+const workShowcase = [
+  {
+    id: "work-1",
+    client: "AstraTech Global",
+    title: "Next-Gen Fintech Launch",
+    category: "Film & Content Creation",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&h=750&fit=crop&auto=format",
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+  {
+    id: "work-2",
+    client: "Aura Couture",
+    title: "Luxury Brand Universe",
+    category: "Brand & Experience",
+    image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=750&fit=crop&auto=format",
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+  {
+    id: "work-3",
+    client: "Kinetix Mobility",
+    title: "Autonomous EV Horizon",
+    category: "Cinematic Film",
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&h=750&fit=crop&auto=format",
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+];
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"all" | "creative" | "growth">("all");
+  const [activeVideo, setActiveVideo] = useState<VideoProject | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
 
-  const filteredServices = services.filter((s) => {
-    if (activeTab === "all") return true;
-    if (activeTab === "creative") {
-      return ["branding", "video", "events", "celebrity"].includes(s.id);
-    }
-    return ["performance", "social", "brand-building", "franchise"].includes(s.id);
-  });
+  // Smooth mouse parallax for floating glass spheres
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+  };
 
-  const featuredProjects = portfolioItems.slice(0, 3);
+  const handleOpenShowreel = () => {
+    setActiveVideo({
+      id: "showreel-main",
+      client: "RockLike Techventures",
+      title: "Agency Showreel 2026 — We Make Brands Move",
+      category: "Cinematic Showreel",
+      duration: "02:14",
+      description: "A showcase of venture-scale brand architecture, cinematic film production, and digital acceleration.",
+      thumbnail: "/assets/landing/hero_visual_2x.png",
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      year: 2026,
+      tags: ["Cinematic", "Brand Architecture", "Growth Acceleration"],
+    });
+  };
 
   return (
-    <main>
-      {/* ══════════════════════════════════════════
-          HERO SECTION
-      ══════════════════════════════════════════ */}
+    <main
+      style={{
+        backgroundColor: "var(--clr-obsidian)",
+        color: "var(--text-primary)",
+        overflowX: "hidden",
+      }}
+    >
+      {/* ════════════════════════════════════════════════════════════
+          1. HERO SECTION: "WE MAKE BRANDS MOVE."
+      ════════════════════════════════════════════════════════════ */}
       <section
+        ref={heroRef}
+        onMouseMove={handleMouseMove}
+        aria-label="RockLike Techventures Hero"
         style={{
           position: "relative",
-          minHeight: "92vh",
+          minHeight: "100vh",
           display: "flex",
           alignItems: "center",
-          paddingTop: "calc(var(--nav-height) + 3rem)",
-          paddingBottom: "5rem",
+          paddingTop: "calc(var(--nav-height) + 2rem)",
+          paddingBottom: "4rem",
           overflow: "hidden",
-          backgroundColor: "var(--surface-0)",
+          backgroundColor: "#07090E",
         }}
       >
-        {/* Glow & grid background */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-          {/* Radial Top Glows */}
+        {/* Background Visual Plate (Clean Liquid Blue & Molten Gold Wave in Dark Studio) */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('/assets/landing/hero_backdrop_clean.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center right",
+            backgroundRepeat: "no-repeat",
+            opacity: 0.98,
+            zIndex: 0,
+          }}
+        />
+
+        {/* Ambient Studio Lighting Glows */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(circle at 75% 50%, rgba(13,82,156,0.18) 0%, transparent 60%), radial-gradient(circle at 60% 75%, rgba(212,160,36,0.12) 0%, transparent 50%), linear-gradient(180deg, rgba(7,9,14,0.6) 0%, transparent 35%, rgba(7,9,14,0.85) 100%)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
+
+        {/* Levitating Optical Glass Spheres with Dynamic Mouse Parallax */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        >
+          {/* Main Center-Right Glass Sphere */}
           <div
             style={{
               position: "absolute",
-              top: "-15%",
-              left: "15%",
-              width: "65vw",
-              height: "55vw",
-              maxWidth: "800px",
-              maxHeight: "700px",
-              background: "radial-gradient(circle, rgba(224,53,53,0.14) 0%, transparent 68%)",
+              top: "42%",
+              left: "65%",
+              width: "74px",
+              height: "74px",
+              transform: `translate(${mousePos.x * 24}px, ${mousePos.y * 24}px)`,
+              transition: "transform 150ms cubic-bezier(0.1, 0.9, 0.2, 1)",
+              animation: "floatLevitate 5s ease-in-out infinite",
             }}
-          />
+          >
+            <img
+              src="/assets/landing/glass_sphere_main.png"
+              alt=""
+              style={{
+                width: "100%",
+                height: "100%",
+                filter: "drop-shadow(0 8px 24px rgba(13,82,156,0.35)) drop-shadow(0 2px 10px rgba(212,160,36,0.3))",
+              }}
+            />
+          </div>
+
+          {/* Top-Right Secondary Glass Sphere */}
           <div
             style={{
               position: "absolute",
-              top: "20%",
-              right: "-10%",
-              width: "50vw",
-              height: "50vw",
-              maxWidth: "600px",
-              background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 65%)",
+              top: "23%",
+              left: "75%",
+              width: "40px",
+              height: "40px",
+              transform: `translate(${mousePos.x * -16}px, ${mousePos.y * -16}px)`,
+              transition: "transform 180ms cubic-bezier(0.1, 0.9, 0.2, 1)",
+              animation: "floatLevitate 6.5s ease-in-out infinite 1s",
             }}
-          />
-          {/* Subtle Grid */}
+          >
+            <img
+              src="/assets/landing/glass_sphere_top.png"
+              alt=""
+              style={{
+                width: "100%",
+                height: "100%",
+                filter: "drop-shadow(0 4px 16px rgba(13,82,156,0.3))",
+              }}
+            />
+          </div>
+
+          {/* Lower Floating Glass Sphere */}
           <div
             style={{
               position: "absolute",
-              inset: 0,
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
-              backgroundSize: "64px 64px",
-              maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-              WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+              top: "74%",
+              left: "59%",
+              width: "40px",
+              height: "40px",
+              transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`,
+              transition: "transform 200ms cubic-bezier(0.1, 0.9, 0.2, 1)",
+              animation: "floatLevitate 5.8s ease-in-out infinite 2s",
             }}
-          />
+          >
+            <img
+              src="/assets/landing/glass_sphere_bottom.png"
+              alt=""
+              style={{
+                width: "100%",
+                height: "100%",
+                filter: "drop-shadow(0 4px 18px rgba(212,160,36,0.35))",
+              }}
+            />
+          </div>
         </div>
 
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ maxWidth: "860px" }}>
-            {/* Eyebrow Pill */}
+        {/* Hero Interactive Content Layer */}
+        <div
+          className="container"
+          style={{
+            position: "relative",
+            zIndex: 3,
+            display: "grid",
+            gridTemplateColumns: "1fr auto",
+            alignItems: "center",
+            gap: "2rem",
+            width: "100%",
+          }}
+        >
+          {/* Left Column: Eyebrow, Monumental Typography, Thesis & Showreel CTA */}
+          <div style={{ maxWidth: "720px" }}>
+            {/* Left Eyebrow Ticker */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "0.625rem",
-                padding: "0.35rem 0.875rem",
-                backgroundColor: "rgba(224,53,53,0.1)",
-                border: "1px solid rgba(224,53,53,0.3)",
-                borderRadius: "var(--radius-full)",
-                marginBottom: "2rem",
+                gap: "0.75rem",
+                padding: "0.35rem 0.85rem",
+                backgroundColor: "rgba(13,82,156,0.12)",
+                border: "1px solid rgba(13,82,156,0.35)",
+                borderRadius: "9999px",
+                marginBottom: "1.75rem",
+                backdropFilter: "blur(8px)",
               }}
             >
               <span
                 style={{
-                  width: "0.5rem",
-                  height: "0.5rem",
+                  width: "0.45rem",
+                  height: "0.45rem",
                   borderRadius: "50%",
-                  backgroundColor: "var(--clr-branding)",
-                  boxShadow: "0 0 10px var(--clr-branding)",
+                  backgroundColor: "var(--clr-gold)",
+                  boxShadow: "0 0 8px var(--clr-gold)",
                 }}
               />
               <span
@@ -105,364 +311,690 @@ export default function Home() {
                   fontFamily: "var(--font-fine)",
                   fontSize: "0.6875rem",
                   fontWeight: 700,
-                  letterSpacing: "0.14em",
+                  letterSpacing: "0.22em",
                   textTransform: "uppercase",
-                  color: "var(--text-primary)",
+                  color: "#D4A024",
                 }}
               >
-                Venture-Scale Creative &amp; Growth Studio
+                IDEAS · BRANDS · FILMS · GROWTH
               </span>
             </div>
 
-            {/* Headline */}
+            {/* Headline: "WE MAKE BRANDS MOVE." */}
             <h1
               style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 900,
-                fontSize: "clamp(3.25rem, 8vw, 6.75rem)",
-                lineHeight: "0.93",
-                letterSpacing: "var(--tracking-display)",
-                color: "var(--text-primary)",
-                margin: "0 0 1.75rem",
+                margin: "0 0 1.5rem",
+                lineHeight: 0.92,
+                letterSpacing: "-0.03em",
                 textTransform: "uppercase",
               }}
             >
-              We Build <br />
+              {/* "WE MAKE" in Editorial Italic Serif */}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #F7F5F2 20%, #A8A5A0 100%)",
+                  display: "block",
+                  fontFamily: "var(--font-serif)",
+                  fontWeight: 700,
+                  fontStyle: "italic",
+                  fontSize: "clamp(3.5rem, 8.5vw, 7.8rem)",
+                  color: "#FFFFFF",
+                  textShadow: "0 2px 24px rgba(0,0,0,0.6)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                WE MAKE
+              </span>
+
+              {/* "BRANDS MOVE." in Monumental Condensed Gold */}
+              <span
+                style={{
+                  display: "block",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "clamp(4.2rem, 11vw, 9.6rem)",
+                  letterSpacing: "0.01em",
+                  background: "linear-gradient(180deg, #F5D77F 0%, #D4A024 45%, #9E7412 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  filter: "drop-shadow(0 4px 32px rgba(212,160,36,0.35))",
+                }}
+              >
+                BRANDS MOVE.
+              </span>
+            </h1>
+
+            {/* Thesis Statement */}
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
+                lineHeight: 1.6,
+                color: "var(--text-secondary)",
+                maxWidth: "520px",
+                margin: "0 0 2.5rem",
+                fontWeight: 400,
+              }}
+            >
+              A venture-scale creative & growth studio for ambitious brands, bold stories and unmatched impact.
+            </p>
+
+            {/* CTA Group: Watch Showreel & Tracker */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.75rem",
+                flexWrap: "wrap",
+              }}
+            >
+              {/* Watch Showreel Circular Button */}
+              <button
+                type="button"
+                onClick={handleOpenShowreel}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.875rem",
+                  background: "rgba(13,82,156,0.15)",
+                  border: "1px solid rgba(13,82,156,0.4)",
+                  padding: "0.5rem 1.35rem 0.5rem 0.5rem",
+                  borderRadius: "9999px",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                  backdropFilter: "blur(12px)",
+                  boxShadow: "0 4px 20px rgba(13,82,156,0.25)",
+                  transition: "all var(--ease-base)",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.borderColor = "var(--clr-gold)";
+                  el.style.transform = "translateY(-2px)";
+                  el.style.boxShadow = "0 6px 28px rgba(212,160,36,0.35)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.borderColor = "rgba(13,82,156,0.4)";
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "0 4px 20px rgba(13,82,156,0.25)";
+                }}
+              >
+                {/* Glowing Pulse Play Disc */}
+                <span
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #0D529C 0%, #083464 100%)",
+                    border: "1px solid rgba(255,255,255,0.25)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 0 16px rgba(13,82,156,0.5)",
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 2.5L14 8L4 13.5V2.5Z" fill="#FFFFFF" />
+                  </svg>
+                </span>
+
+                <span
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.8125rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  WATCH SHOWREEL
+                </span>
+              </button>
+
+              {/* Progress Index Tracker (01 — 05) */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  color: "var(--text-muted)",
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.8125rem",
+                  letterSpacing: "0.12em",
+                }}
+              >
+                <span style={{ height: "1px", width: "40px", backgroundColor: "rgba(255,255,255,0.2)" }} />
+                <span style={{ color: "var(--clr-gold)", fontWeight: 700 }}>01</span>
+                <span>/</span>
+                <span>05</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Asymmetric Agency Impact Stats */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "2.25rem",
+              paddingLeft: "2rem",
+              borderLeft: "1px solid rgba(255,255,255,0.08)",
+            }}
+            className="hidden lg:flex"
+          >
+            {/* Stat 1 */}
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "3.25rem",
+                  lineHeight: 1,
+                  background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                What's Next.
-              </span>
-            </h1>
-
-            {/* Subtitle */}
-            <p
-              style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "clamp(1.0625rem, 1.8vw, 1.25rem)",
-                lineHeight: "1.65",
-                color: "var(--text-secondary)",
-                margin: "0 0 2.75rem",
-                maxWidth: "52ch",
-              }}
-            >
-              Rocklike Techventures partners with visionary founders and enterprise leaders to engineer category-defining brand systems, cinematic visual stories, and compounding performance growth engines.
-            </p>
-
-            {/* CTAs */}
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap", marginBottom: "4rem" }}>
-              <Button to="/services" variant="primary" size="lg" accent="var(--clr-branding)">
-                Explore Capabilities
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Button>
-              <Button to="/contact" variant="secondary" size="lg">
-                Start a Conversation
-              </Button>
+                09+
+              </div>
+              <div
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.6875rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                  marginTop: "0.25rem",
+                }}
+              >
+                Years Experience
+              </div>
             </div>
 
-            {/* Trust Stats Bar */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-                gap: "2rem",
-                paddingTop: "2.5rem",
-                borderTop: "1px solid var(--border-default)",
-              }}
-            >
-              {[
-                { val: "09+", label: "Years Experience", accent: "var(--clr-branding)" },
-                { val: "300+", label: "Brands Launched", accent: "var(--clr-video)" },
-                { val: "$48M+", label: "Revenue Driven", accent: "var(--clr-performance)" },
-                { val: "1,200+", label: "Films Created", accent: "var(--clr-strategy)" },
-              ].map((s) => (
-                <div key={s.label}>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 900,
-                      fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
-                      lineHeight: 1,
-                      letterSpacing: "var(--tracking-tight)",
-                      color: s.accent,
-                      marginBottom: "0.35rem",
-                    }}
-                  >
-                    {s.val}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-fine)",
-                      fontSize: "0.6875rem",
-                      fontWeight: 600,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    {s.label}
-                  </div>
-                </div>
-              ))}
+            {/* Stat 2 */}
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "3.25rem",
+                  lineHeight: 1,
+                  background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                300+
+              </div>
+              <div
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.6875rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                  marginTop: "0.25rem",
+                }}
+              >
+                Brands Launched
+              </div>
+            </div>
+
+            {/* Stat 3 */}
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "3.25rem",
+                  lineHeight: 1,
+                  background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                $48M+
+              </div>
+              <div
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.6875rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                  marginTop: "0.25rem",
+                }}
+              >
+                Revenue Driven
+              </div>
+            </div>
+
+            {/* Stat 4 */}
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 900,
+                  fontSize: "3.25rem",
+                  lineHeight: 1,
+                  background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                1,200+
+              </div>
+              <div
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.6875rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                  marginTop: "0.25rem",
+                }}
+              >
+                Films Created
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Bottom Scroll Anchor */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "1.5rem",
+            left: "var(--grid-gutter)",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.65rem",
+            color: "var(--text-muted)",
+            fontFamily: "var(--font-fine)",
+            fontSize: "0.6875rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            zIndex: 3,
+          }}
+        >
+          <span
+            style={{
+              width: "16px",
+              height: "16px",
+              borderRadius: "50%",
+              border: "1px solid var(--clr-gold)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "var(--clr-gold)" }} />
+          </span>
+          <span>Scroll to explore</span>
+        </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-          CAPABILITIES OVERVIEW (8 PILLARS)
-      ══════════════════════════════════════════ */}
-      <section id="capabilities" className="section" style={{ backgroundColor: "var(--surface-1)", borderTop: "1px solid var(--border-default)" }}>
+      {/* ════════════════════════════════════════════════════════════
+          2. EIGHT INTEGRATED CAPABILITIES (WARM IVORY CANVAS)
+      ════════════════════════════════════════════════════════════ */}
+      <section
+        id="capabilities"
+        aria-label="Eight Integrated Capabilities"
+        style={{
+          backgroundColor: "var(--clr-ivory)",
+          color: "var(--clr-ivory-text)",
+          paddingTop: "6.5rem",
+          paddingBottom: "6.5rem",
+          position: "relative",
+        }}
+      >
         <div className="container">
+          {/* Section Header */}
           <div
             style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "2rem",
+              maxWidth: "680px",
               marginBottom: "3.5rem",
             }}
           >
-            <SectionHeading
-              eyebrow="Core Disciplines"
-              title="Eight Integrated Capabilities. One Uncompromising Standard."
-              subtitle="From brand identity and cinematic production to full-funnel media acquisition and franchise scaling — everything your brand needs under one roof."
-              accent="var(--clr-branding)"
-            />
-
-            {/* Category Filter Tabs */}
-            <div
+            <span
               style={{
-                display: "inline-flex",
-                backgroundColor: "var(--surface-2)",
-                padding: "0.25rem",
-                borderRadius: "var(--radius-sm)",
-                border: "1px solid var(--border-default)",
+                fontFamily: "var(--font-fine)",
+                fontSize: "0.75rem",
+                fontWeight: 700,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "var(--clr-gold)",
+                display: "block",
+                marginBottom: "0.75rem",
               }}
             >
-              {(
-                [
-                  { id: "all", label: "All (8)" },
-                  { id: "creative", label: "Creative & Brand" },
-                  { id: "growth", label: "Growth & Scale" },
-                ] as const
-              ).map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  style={{
-                    backgroundColor: activeTab === tab.id ? "var(--surface-3)" : "transparent",
-                    color: activeTab === tab.id ? "var(--text-primary)" : "var(--text-muted)",
-                    border: "none",
-                    borderRadius: "var(--radius-xs)",
-                    padding: "0.5rem 1rem",
-                    fontFamily: "var(--font-fine)",
-                    fontSize: "0.75rem",
-                    fontWeight: 600,
-                    letterSpacing: "0.06em",
-                    cursor: "pointer",
-                    transition: "all var(--ease-fast)",
-                  }}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+              OUR CAPABILITIES
+            </span>
+            <h2
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(2.5rem, 5vw, 4.25rem)",
+                fontWeight: 700,
+                color: "#1C1917",
+                lineHeight: 1.05,
+                margin: "0 0 1rem",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Eight Integrated Capabilities.
+            </h2>
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "1.0625rem",
+                color: "var(--clr-ivory-muted)",
+                lineHeight: 1.65,
+                margin: 0,
+              }}
+            >
+              From brand identity and cinematic production to full-funnel media acquisition and franchise scaling — everything your brand needs under one roof.
+            </p>
           </div>
 
-          {/* Service Cards Grid */}
+          {/* 2×4 Modular Capabilities Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "1.25rem",
             }}
           >
-            {filteredServices.map((svc, i) => (
-              <Link
-                key={svc.id}
-                to={svc.href}
-                style={{
-                  backgroundColor: "var(--surface-2)",
-                  border: "1px solid var(--border-default)",
-                  borderRadius: "var(--radius-lg)",
-                  padding: "2rem",
-                  textDecoration: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1.25rem",
-                  position: "relative",
-                  overflow: "hidden",
-                  transition: "transform var(--ease-base), border-color var(--ease-base), box-shadow var(--ease-base)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                  (e.currentTarget as HTMLElement).style.borderColor = svc.accentBorder;
-                  (e.currentTarget as HTMLElement).style.boxShadow = `0 16px 40px rgba(0,0,0,0.5), 0 0 40px ${svc.accentGlow}`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "var(--border-default)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                }}
-              >
-                {/* Number & Arrow */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 900,
-                      fontSize: "1.75rem",
-                      color: svc.accent,
-                      lineHeight: 1,
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+            {capabilities.map((cap) => {
+              const IconComponent = cap.icon;
+              return (
+                <Link
+                  key={cap.num}
+                  to={cap.href}
+                  style={{
+                    backgroundColor: "var(--clr-ivory-card)",
+                    border: "1px solid var(--clr-ivory-border)",
+                    borderRadius: "var(--radius-md)",
+                    padding: "2rem 1.75rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    minHeight: "230px",
+                    textDecoration: "none",
+                    color: "inherit",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
+                    transition: "all var(--ease-base)",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget;
+                    el.style.transform = "translateY(-4px)";
+                    el.style.borderColor = "var(--clr-gold)";
+                    el.style.boxShadow = "0 12px 32px rgba(212,160,36,0.14)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget;
+                    el.style.transform = "translateY(0)";
+                    el.style.borderColor = "var(--clr-ivory-border)";
+                    el.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
+                  }}
+                >
+                  {/* Top Bar: Numeral & Icon */}
                   <div
                     style={{
-                      width: "2rem",
-                      height: "2rem",
-                      borderRadius: "50%",
-                      backgroundColor: svc.accentGlow,
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      color: svc.accent,
+                      justifyContent: "space-between",
+                      marginBottom: "1.25rem",
                     }}
                   >
+                    <span
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: "2rem",
+                        fontWeight: 900,
+                        color: "var(--clr-gold)",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {cap.num}
+                    </span>
+                    <div
+                      style={{
+                        width: "44px",
+                        height: "44px",
+                        borderRadius: "50%",
+                        backgroundColor: "#F7F4EE",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#0D529C",
+                      }}
+                    >
+                      <IconComponent size={22} color="#0D529C" />
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div>
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: "1.45rem",
+                        fontWeight: 800,
+                        color: "#1C1917",
+                        marginBottom: "0.6rem",
+                        lineHeight: 1.15,
+                        letterSpacing: "0.01em",
+                      }}
+                    >
+                      {cap.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-body)",
+                        fontSize: "0.875rem",
+                        color: "var(--clr-ivory-muted)",
+                        lineHeight: 1.55,
+                        margin: 0,
+                      }}
+                    >
+                      {cap.description}
+                    </p>
+                  </div>
+
+                  {/* Arrow Indicator */}
+                  <div
+                    style={{
+                      marginTop: "1.5rem",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.4rem",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      fontFamily: "var(--font-fine)",
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "var(--clr-royal-blue)",
+                    }}
+                  >
+                    <span>Explore</span>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
-                </div>
+                </Link>
+              );
+            })}
+          </div>
 
-                {/* Title */}
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 800,
-                    fontSize: "1.5rem",
-                    letterSpacing: "var(--tracking-display)",
-                    color: "var(--text-primary)",
-                    margin: 0,
-                  }}
-                >
-                  {svc.fullTitle}
-                </h3>
-
-                {/* Tagline */}
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
-                    lineHeight: "1.6",
-                    color: "var(--text-secondary)",
-                    margin: 0,
-                    flexGrow: 1,
-                  }}
-                >
-                  {svc.description.split(".")[0]}.
-                </p>
-
-                {/* Highlights */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
-                  {svc.highlights.slice(0, 3).map((h) => (
-                    <span
-                      key={h}
-                      style={{
-                        fontFamily: "var(--font-fine)",
-                        fontSize: "0.625rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        color: "var(--text-muted)",
-                        backgroundColor: "var(--surface-3)",
-                        border: "1px solid var(--border-subtle)",
-                        padding: "0.2rem 0.5rem",
-                        borderRadius: "var(--radius-xs)",
-                      }}
-                    >
-                      {h}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Stat footer */}
-                <div
-                  style={{
-                    paddingTop: "1rem",
-                    borderTop: "1px solid var(--border-subtle)",
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 900,
-                      fontSize: "1.25rem",
-                      color: svc.accent,
-                    }}
-                  >
-                    {svc.stat}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-fine)",
-                      fontSize: "0.6875rem",
-                      fontWeight: 600,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    {svc.statLabel}
-                  </span>
-                </div>
-              </Link>
-            ))}
+          {/* Bottom Capabilities Action */}
+          <div style={{ marginTop: "3rem", textAlign: "center" }}>
+            <Link
+              to="/services"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.65rem",
+                padding: "0.875rem 2rem",
+                borderRadius: "9999px",
+                border: "1px solid var(--clr-ivory-border)",
+                backgroundColor: "#FFFFFF",
+                color: "#1C1917",
+                fontFamily: "var(--font-fine)",
+                fontSize: "0.8125rem",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+                transition: "all var(--ease-fast)",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.backgroundColor = "var(--clr-gold)";
+                el.style.borderColor = "var(--clr-gold)";
+                el.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.backgroundColor = "#FFFFFF";
+                el.style.borderColor = "var(--clr-ivory-border)";
+                el.style.transform = "translateY(0)";
+              }}
+            >
+              <span>Explore All Capabilities</span>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-          FEATURED WORK PREVIEW
-      ══════════════════════════════════════════ */}
-      <section className="section" style={{ backgroundColor: "var(--surface-0)" }}>
+      {/* ════════════════════════════════════════════════════════════
+          3. STORIES THAT MOVE PEOPLE (CINEMATIC WORK SHOWCASE)
+      ════════════════════════════════════════════════════════════ */}
+      <section
+        id="work"
+        aria-label="Selected Work — Stories That Move People"
+        style={{
+          backgroundColor: "#07090E",
+          paddingTop: "6.5rem",
+          paddingBottom: "6.5rem",
+          position: "relative",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
+        }}
+      >
         <div className="container">
+          {/* Header with Navigation Controls */}
           <div
             style={{
               display: "flex",
               alignItems: "flex-end",
               justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "2rem",
               marginBottom: "3.5rem",
+              flexWrap: "wrap",
+              gap: "1.5rem",
             }}
           >
-            <SectionHeading
-              eyebrow="Case Studies"
-              title="Engineered for Impact. Built to Compound."
-              subtitle="Explore selected outcomes from our creative, production, and performance partnerships."
-              accent="var(--clr-video)"
-            />
-            <Button to="/work" variant="outline" accent="var(--clr-video)">
-              View All Work ({portfolioItems.length})
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Button>
+            <div>
+              <span
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "var(--clr-gold)",
+                  display: "block",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                SELECTED WORK
+              </span>
+              <h2
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  margin: 0,
+                  lineHeight: 1.1,
+                }}
+              >
+                Stories That Move People.
+              </h2>
+            </div>
+
+            {/* Slider Controls */}
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <button
+                type="button"
+                onClick={() => setActiveSlide((prev) => (prev > 0 ? prev - 1 : workShowcase.length - 1))}
+                aria-label="Previous Project"
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  backgroundColor: "rgba(255,255,255,0.03)",
+                  color: "#FFFFFF",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all var(--ease-fast)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "var(--clr-gold)";
+                  e.currentTarget.style.backgroundColor = "rgba(212,160,36,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)";
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveSlide((prev) => (prev < workShowcase.length - 1 ? prev + 1 : 0))}
+                aria-label="Next Project"
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  backgroundColor: "rgba(255,255,255,0.03)",
+                  color: "#FFFFFF",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all var(--ease-fast)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "var(--clr-gold)";
+                  e.currentTarget.style.backgroundColor = "rgba(212,160,36,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)";
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
           </div>
 
+          {/* Cinematic Work Showcase Grid */}
           <div
             style={{
               display: "grid",
@@ -470,194 +1002,522 @@ export default function Home() {
               gap: "2rem",
             }}
           >
-            {featuredProjects.map((p) => (
-              <PortfolioCard key={p.id} item={p} featured />
+            {workShowcase.map((item, idx) => (
+              <div
+                key={item.id}
+                style={{
+                  position: "relative",
+                  borderRadius: "var(--radius-lg)",
+                  overflow: "hidden",
+                  backgroundColor: "var(--surface-1)",
+                  border: idx === activeSlide ? "1px solid var(--clr-gold)" : "1px solid rgba(255,255,255,0.08)",
+                  boxShadow: idx === activeSlide ? "0 12px 40px rgba(212,160,36,0.18)" : "none",
+                  transition: "all var(--ease-base)",
+                  cursor: "pointer",
+                }}
+                onClick={() =>
+                  setActiveVideo({
+                    id: item.id,
+                    client: item.client,
+                    title: item.title,
+                    category: item.category,
+                    duration: "01:45",
+                    description: "High-impact narrative and production work engineered for market disruption.",
+                    thumbnail: item.image,
+                    videoUrl: item.videoUrl,
+                    year: 2025,
+                    tags: ["Production", "Cinematic", "Launch"],
+                  })
+                }
+              >
+                {/* Visual Thumbnail */}
+                <div style={{ position: "relative", height: "340px", overflow: "hidden" }}>
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      transition: "transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+                    }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.06)")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "linear-gradient(180deg, transparent 40%, rgba(7,9,14,0.92) 100%)",
+                    }}
+                  />
+
+                  {/* Play Trigger Badge */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "1.25rem",
+                      right: "1.25rem",
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "50%",
+                      backgroundColor: "rgba(7,9,14,0.7)",
+                      backdropFilter: "blur(12px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#FFFFFF",
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <path d="M4 2.5L14 8L4 13.5V2.5Z" fill="var(--clr-gold)" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Content Overlay */}
+                <div style={{ padding: "1.75rem 1.5rem" }}>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "0.6875rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: "var(--clr-gold)",
+                      display: "block",
+                      marginBottom: "0.35rem",
+                    }}
+                  >
+                    {item.category}
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1.75rem",
+                      fontWeight: 800,
+                      color: "#FFFFFF",
+                      margin: "0 0 0.4rem",
+                    }}
+                  >
+                    {item.client}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.9375rem",
+                      color: "var(--text-secondary)",
+                      margin: 0,
+                    }}
+                  >
+                    {item.title}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-          THE ROCKLIKE BLUEPRINT (PROCESS)
-      ══════════════════════════════════════════ */}
-      <section className="section" style={{ backgroundColor: "var(--surface-1)", borderTop: "1px solid var(--border-default)" }}>
-        <div className="container">
-          <div style={{ textAlign: "center", maxWidth: "640px", margin: "0 auto 4rem" }}>
-            <SectionHeading
-              align="center"
-              eyebrow="The Framework"
-              title="How High-Growth Brands Compound Advantage"
-              subtitle="A repeatable four-phase engagement model that translates strategic intuition into commercial momentum."
-              accent="var(--clr-performance)"
-            />
-          </div>
+      {/* ════════════════════════════════════════════════════════════
+          4. BEYOND NUMBERS. REAL IMPACT. (SIGNATURE CRYSTAL MONOLITH)
+      ════════════════════════════════════════════════════════════ */}
+      <section
+        id="impact"
+        aria-label="Beyond Numbers. Real Impact."
+        style={{
+          backgroundColor: "#07090E",
+          paddingTop: "7rem",
+          paddingBottom: "7rem",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background Radial Glow */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "900px",
+            height: "700px",
+            background: "radial-gradient(circle, rgba(13,82,156,0.18) 0%, rgba(212,160,36,0.08) 50%, transparent 75%)",
+            pointerEvents: "none",
+          }}
+        />
 
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              alignItems: "center",
+              gap: "4rem",
             }}
           >
-            {[
-              {
-                step: "01",
-                phase: "Diagnostic & Strategy",
-                desc: "We dissect your unit economics, brand positioning, and competitive landscape to establish unfair market advantage.",
-              },
-              {
-                step: "02",
-                phase: "Identity & Architecture",
-                desc: "We craft cohesive visual language, tone systems, and design tokens that elevate brand equity across all touchpoints.",
-              },
-              {
-                step: "03",
-                phase: "Cinematic Production",
-                desc: "We engineer hero films, episodic social assets, and experiential collateral built with editorial perfection.",
-              },
-              {
-                step: "04",
-                phase: "Scale & Compounding",
-                desc: "We deploy full-funnel media architecture and growth loops that turn awareness into measurable revenue.",
-              },
-            ].map((p, idx) => (
-              <div
-                key={p.step}
-                style={{
-                  backgroundColor: "var(--surface-2)",
-                  border: "1px solid var(--border-default)",
-                  borderRadius: "var(--radius-lg)",
-                  padding: "2.25rem",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
+            {/* Left Stats Column */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem" }}>
+              <div>
+                <span
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-gold)",
+                    display: "block",
+                    marginBottom: "0.75rem",
+                  }}
+                >
+                  MEASURABLE SCALE
+                </span>
+                <h2
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "clamp(2.5rem, 5vw, 4.25rem)",
+                    fontWeight: 700,
+                    color: "#FFFFFF",
+                    lineHeight: 1.05,
+                    margin: 0,
+                  }}
+                >
+                  Beyond Numbers.
+                  <span
+                    style={{
+                      display: "block",
+                      color: "var(--clr-gold)",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Real Impact.
+                  </span>
+                </h2>
+              </div>
+
+              {/* Metric 1 */}
+              <div>
                 <div
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 900,
-                    fontSize: "3.5rem",
+                    fontSize: "4rem",
                     lineHeight: 1,
-                    letterSpacing: "-0.04em",
-                    color: "rgba(255,255,255,0.06)",
-                    marginBottom: "1rem",
+                    color: "#FFFFFF",
                   }}
                 >
-                  {p.step}
+                  +120%
                 </div>
-                <h3
+                <div
                   style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 800,
-                    fontSize: "1.375rem",
-                    letterSpacing: "var(--tracking-display)",
-                    color: "var(--text-primary)",
-                    margin: "0 0 0.75rem",
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-gold)",
+                    marginTop: "0.4rem",
                   }}
                 >
-                  {p.phase}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
-                    lineHeight: "1.65",
-                    color: "var(--text-secondary)",
-                    margin: 0,
-                  }}
-                >
-                  {p.desc}
+                  Growth Acceleration
+                </div>
+                <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginTop: "0.3rem" }}>
+                  Average year-over-year revenue expansion across client portfolio.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ══════════════════════════════════════════
-          MONOLITH CTA BANNER
-      ══════════════════════════════════════════ */}
-      <section className="section" style={{ backgroundColor: "var(--surface-0)" }}>
-        <div className="container">
-          <div
-            style={{
-              position: "relative",
-              backgroundColor: "var(--surface-1)",
-              border: "1px solid rgba(224,53,53,0.3)",
-              borderRadius: "var(--radius-xl)",
-              padding: "clamp(3.5rem, 8vw, 6.5rem) clamp(2rem, 5vw, 4rem)",
-              textAlign: "center",
-              overflow: "hidden",
-            }}
-          >
-            {/* Background Glow */}
+              {/* Metric 2 */}
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 900,
+                    fontSize: "4rem",
+                    lineHeight: 1,
+                    color: "#FFFFFF",
+                  }}
+                >
+                  260%
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-gold)",
+                    marginTop: "0.4rem",
+                  }}
+                >
+                  Reach Expansion
+                </div>
+                <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginTop: "0.3rem" }}>
+                  Compound organic awareness through proprietary distribution networks.
+                </p>
+              </div>
+            </div>
+
+            {/* Center: Radiant Blue & Gold Crystal Monolith (User Favorite Asset) */}
             <div
-              aria-hidden
               style={{
-                position: "absolute",
-                top: 0,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: "80%",
-                height: "80%",
-                background: "radial-gradient(ellipse at top, rgba(224,53,53,0.18), transparent 70%)",
-                pointerEvents: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
               }}
-            />
-
-            <div style={{ position: "relative", zIndex: 1, maxWidth: "600px", margin: "0 auto" }}>
+            >
               <div
                 style={{
-                  fontFamily: "var(--font-fine)",
-                  fontSize: "var(--text-xs)",
-                  fontWeight: 700,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--clr-branding)",
-                  marginBottom: "1rem",
+                  position: "relative",
+                  width: "100%",
+                  maxWidth: "460px",
+                  aspectRatio: "1/1",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                Start an Engagement
+                {/* Glowing Aura Ring */}
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    inset: "10%",
+                    borderRadius: "50%",
+                    background: "radial-gradient(circle, rgba(13,82,156,0.3) 0%, rgba(212,160,36,0.2) 60%, transparent 80%)",
+                    filter: "blur(40px)",
+                  }}
+                />
+
+                {/* Faceted Crystal Stone */}
+                <img
+                  src="/assets/landing/impact_crystal_monolith.jpg"
+                  alt="RockLike Faceted Crystal Stone Monolith"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    position: "relative",
+                    zIndex: 2,
+                    mixBlendMode: "screen",
+                    maskImage: "radial-gradient(circle at center, black 65%, transparent 98%)",
+                    WebkitMaskImage: "radial-gradient(circle at center, black 65%, transparent 98%)",
+                    filter: "drop-shadow(0 16px 48px rgba(13,82,156,0.45)) drop-shadow(0 4px 20px rgba(212,160,36,0.35))",
+                    animation: "floatLevitate 7s ease-in-out infinite",
+                  }}
+                />
               </div>
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 900,
-                  fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
-                  lineHeight: "var(--leading-tight)",
-                  letterSpacing: "var(--tracking-display)",
-                  color: "var(--text-primary)",
-                  margin: "0 0 1.25rem",
-                }}
-              >
-                Ready to Build Something Unforgettable?
-              </h2>
-              <p
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "clamp(1rem, 1.5vw, 1.125rem)",
-                  lineHeight: "1.65",
-                  color: "var(--text-secondary)",
-                  margin: "0 0 2.5rem",
-                }}
-              >
-                Tell us about your venture, product, or next milestone. We respond with a tailored strategic perspective within 24 hours.
-              </p>
-              <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap" }}>
-                <Button to="/contact" variant="primary" size="lg" accent="var(--clr-branding)">
-                  Schedule Consultation
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Button>
-                <Button to="/work" variant="secondary" size="lg">
-                  Explore Case Studies
-                </Button>
+            </div>
+
+            {/* Right Stats Column */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem" }}>
+              {/* Metric 3 */}
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 900,
+                    fontSize: "4rem",
+                    lineHeight: 1,
+                    color: "var(--clr-gold)",
+                  }}
+                >
+                  $450M
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "#FFFFFF",
+                    marginTop: "0.4rem",
+                  }}
+                >
+                  Value Created
+                </div>
+                <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginTop: "0.3rem" }}>
+                  Enterprise valuation generated through strategic repositioning and media capital.
+                </p>
+              </div>
+
+              {/* Metric 4 */}
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 900,
+                    fontSize: "4rem",
+                    lineHeight: 1,
+                    color: "var(--clr-gold)",
+                  }}
+                >
+                  98%
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "#FFFFFF",
+                    marginTop: "0.4rem",
+                  }}
+                >
+                  Client Retention
+                </div>
+                <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginTop: "0.3rem" }}>
+                  Long-term venture partnerships built on measurable market return.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          5. READY TO BUILD WHAT'S NEXT? (WARM GOLD GRADIENT CTA)
+      ════════════════════════════════════════════════════════════ */}
+      <section
+        aria-label="Ready to Build What's Next Call To Action"
+        style={{
+          position: "relative",
+          background: "linear-gradient(180deg, #07090E 0%, #1A1408 35%, #38280B 70%, #684812 100%)",
+          paddingTop: "7rem",
+          paddingBottom: "8rem",
+          textAlign: "center",
+          overflow: "hidden",
+        }}
+      >
+        {/* Subtle Ambient Radial Lighting */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: "-20%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "800px",
+            height: "400px",
+            background: "radial-gradient(ellipse at center, rgba(212,160,36,0.35) 0%, transparent 70%)",
+            filter: "blur(50px)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: "780px" }}>
+          <span
+            style={{
+              fontFamily: "var(--font-fine)",
+              fontSize: "0.75rem",
+              fontWeight: 700,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              color: "var(--clr-gold-light)",
+              display: "block",
+              marginBottom: "1rem",
+            }}
+          >
+            LET'S CREATE
+          </span>
+
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(2.75rem, 6.5vw, 5.25rem)",
+              fontWeight: 700,
+              color: "#FFFFFF",
+              lineHeight: 1.05,
+              margin: "0 0 1.5rem",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Ready to Build
+            <span
+              style={{
+                display: "block",
+                fontStyle: "italic",
+                color: "var(--clr-gold-light)",
+              }}
+            >
+              What's Next?
+            </span>
+          </h2>
+
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "1.125rem",
+              color: "rgba(255,255,255,0.85)",
+              lineHeight: 1.6,
+              maxWidth: "540px",
+              margin: "0 auto 3rem",
+            }}
+          >
+            Let's turn bold ideas into powerful brands, cinematic films and exponential growth stories.
+          </p>
+
+          <Link
+            to="/contact"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              backgroundColor: "var(--clr-gold)",
+              color: "#07090E",
+              fontFamily: "var(--font-fine)",
+              fontSize: "0.875rem",
+              fontWeight: 800,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              padding: "1rem 2.5rem",
+              borderRadius: "9999px",
+              textDecoration: "none",
+              boxShadow: "0 4px 24px rgba(212,160,36,0.45)",
+              transition: "all var(--ease-base)",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget;
+              el.style.backgroundColor = "var(--clr-gold-light)";
+              el.style.transform = "translateY(-2px) scale(1.02)";
+              el.style.boxShadow = "0 8px 36px rgba(212,160,36,0.6)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget;
+              el.style.backgroundColor = "var(--clr-gold)";
+              el.style.transform = "translateY(0) scale(1)";
+              el.style.boxShadow = "0 4px 24px rgba(212,160,36,0.45)";
+            }}
+          >
+            <span>Start A Conversation</span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
+      </section>
+
+      {/* Interactive Showreel Video Modal */}
+      <VideoModal video={activeVideo} onClose={() => setActiveVideo(null)} />
+
+      {/* Global CSS keyframes for floating levitation */}
+      <style>{`
+        @keyframes floatLevitate {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-12px) rotate(1.5deg);
+          }
+        }
+      `}</style>
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import BrandLogo from "./common/BrandLogo";
 
 const serviceLinks = [
   { label: "Branding Solutions", href: "/services/branding" },
@@ -61,7 +62,7 @@ export default function Footer() {
           transform: "translateX(-50%)",
           width: "800px",
           height: "300px",
-          background: "radial-gradient(ellipse at bottom, rgba(224,53,53,0.06), transparent 70%)",
+          background: "radial-gradient(ellipse at bottom, rgba(13,82,156,0.12), transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -78,42 +79,9 @@ export default function Footer() {
         >
           {/* Col 1: Brand & Bio */}
           <div style={{ maxWidth: "34ch" }}>
-            <Link
-              to="/"
-              style={{
-                textDecoration: "none",
-                display: "inline-flex",
-                flexDirection: "column",
-                gap: "0.15rem",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 900,
-                  fontSize: "1.75rem",
-                  letterSpacing: "0.06em",
-                  color: "var(--text-primary)",
-                  textTransform: "uppercase",
-                  lineHeight: 1,
-                }}
-              >
-                Rocklike
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-fine)",
-                  fontWeight: 400,
-                  fontSize: "0.5625rem",
-                  letterSpacing: "0.28em",
-                  color: "var(--text-muted)",
-                  textTransform: "uppercase",
-                }}
-              >
-                Techventures
-              </span>
-            </Link>
+            <div style={{ marginBottom: "1.25rem" }}>
+              <BrandLogo size="lg" withTagline={true} />
+            </div>
 
             <p
               style={{
@@ -302,18 +270,18 @@ export default function Footer() {
                   <button
                     type="submit"
                     style={{
-                      backgroundColor: "var(--clr-branding)",
+                      backgroundColor: "var(--clr-gold)",
                       border: "none",
-                      color: "#fff",
+                      color: "#07090E",
                       fontFamily: "var(--font-fine)",
                       fontSize: "0.75rem",
-                      fontWeight: 700,
+                      fontWeight: 800,
                       letterSpacing: "0.08em",
                       textTransform: "uppercase",
                       padding: "0.75rem 1.25rem",
                       borderRadius: "var(--radius-sm)",
                       cursor: "pointer",
-                      transition: "filter var(--ease-fast)",
+                      transition: "filter var(--ease-fast), background-color var(--ease-fast)",
                     }}
                     onMouseEnter={(e) => {
                       (e.currentTarget as HTMLElement).style.filter = "brightness(1.15)";

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import BrandLogo from "./common/BrandLogo";
 
 const serviceLinks = [
   { num: "01", label: "Branding Solutions", href: "/services/branding", accent: "var(--clr-branding)" },
@@ -97,44 +98,8 @@ export default function Navbar() {
             gap: "2rem",
           }}
         >
-          {/* Logo */}
-          <Link
-            to="/"
-            style={{
-              textDecoration: "none",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.1rem",
-              lineHeight: 1,
-              flexShrink: 0,
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 900,
-                fontSize: "1.4375rem",
-                letterSpacing: "0.06em",
-                color: "var(--text-primary)",
-                textTransform: "uppercase",
-                lineHeight: 1,
-              }}
-            >
-              Rocklike
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-fine)",
-                fontWeight: 400,
-                fontSize: "0.5rem",
-                letterSpacing: "0.28em",
-                color: "var(--text-muted)",
-                textTransform: "uppercase",
-              }}
-            >
-              Techventures
-            </span>
-          </Link>
+          {/* Official Brand Logo */}
+          <BrandLogo size="md" />
 
           {/* Desktop links */}
           <div
@@ -239,40 +204,78 @@ export default function Navbar() {
                 >
                   {link.label}
                   {active && (
-                    <span style={{ position: "absolute", bottom: "0.25rem", left: "50%", transform: "translateX(-50%)", width: "0.25rem", height: "0.25rem", borderRadius: "50%", backgroundColor: "var(--clr-branding)" }} />
+                    <span
+                      style={{
+                        position: "absolute",
+                        bottom: "0.2rem",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "1.2rem",
+                        height: "2px",
+                        borderRadius: "9999px",
+                        backgroundColor: "var(--clr-gold)",
+                        boxShadow: "0 0 8px var(--clr-gold)",
+                      }}
+                    />
                   )}
                 </Link>
               );
             })}
           </div>
 
-          {/* CTA + Hamburger */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
+          {/* Right CTA Actions: Log in + Contact me pill */}
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexShrink: 0 }}>
+            <Link
+              to="/contact"
+              style={{
+                fontFamily: "var(--font-fine)",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                color: "var(--text-secondary)",
+                textDecoration: "none",
+                transition: "color var(--ease-fast)",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#FFFFFF")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")}
+            >
+              Log in
+            </Link>
             <Link
               to="/contact"
               className="nav-cta"
               style={{
                 fontFamily: "var(--font-fine)",
-                fontSize: "0.75rem",
+                fontSize: "0.8125rem",
                 fontWeight: 600,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "#fff",
+                letterSpacing: "0.02em",
+                color: "#07090E",
                 textDecoration: "none",
-                backgroundColor: "var(--clr-branding)",
-                padding: "0.625rem 1.25rem",
-                borderRadius: "var(--radius-sm)",
-                transition: "opacity var(--ease-fast), transform var(--ease-fast)",
-                display: "inline-block",
+                backgroundColor: "var(--clr-gold)",
+                padding: "0.55rem 1.25rem",
+                borderRadius: "9999px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                boxShadow: "0 2px 14px rgba(212, 160, 36, 0.28)",
+                transition: "transform var(--ease-fast), background-color var(--ease-fast), box-shadow var(--ease-fast)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = "0.88";
+                const el = e.currentTarget as HTMLElement;
+                el.style.backgroundColor = "var(--clr-gold-light)";
+                el.style.transform = "translateY(-1px)";
+                el.style.boxShadow = "0 4px 20px rgba(212, 160, 36, 0.45)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = "1";
+                const el = e.currentTarget as HTMLElement;
+                el.style.backgroundColor = "var(--clr-gold)";
+                el.style.transform = "translateY(0)";
+                el.style.boxShadow = "0 2px 14px rgba(212, 160, 36, 0.28)";
               }}
             >
-              Let's Talk
+              <span>Contact me</span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </Link>
 
             {/* Hamburger */}

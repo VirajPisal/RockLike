@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 90" fill="none">
+  <!-- RockLike Triangle / Chevron Logo Mark -->
+  <g transform="translate(5, 5)">
+    <!-- Outer Blue Triangle Chevron -->
+    <path d="M40 0 L80 75 L70 75 L35 15 L20 45 L10 45 Z" fill="#0D529C"/>
+    <path d="M40 0 L0 75 L15 75 L40 28 L55 58 L45 58 Z" fill="#0D529C"/>
+    <path d="M10 75 L80 75 L75 80 L5 80 Z" fill="#0D529C"/>
+    
+    <!-- Inner Gold Nested Chevron -->
+    <path d="M35 30 L55 68 L22 68 L15 68 L35 30 Z" fill="#D4A024" opacity="0.95"/>
+    <path d="M25 60 L50 60 L45 68 L20 68 Z" fill="#D4A024"/>
+    <path d="M32 40 L45 63 L30 63 Z" fill="#07090E"/>
+  </g>
+
+  <!-- Typography -->
+  <!-- "ROCKLIKE" -->
+  <text x="100" y="40" font-family="'Inter', 'Montserrat', 'Helvetica Neue', sans-serif" font-weight="900" font-size="34" letter-spacing="1.5" fill="#0D529C">
+    ROCKLIKE
+  </text>
+
+  <!-- "TECHVENTURES" -->
+  <text x="100" y="68" font-family="'Inter', 'Montserrat', 'Helvetica Neue', sans-serif" font-weight="800" font-size="25" letter-spacing="3" fill="#D4A024">
+    TECHVENTURES
+  </text>
+
+  <!-- Tagline "Connecting to Digital World" -->
+  <text x="135" y="84" font-family="'Inter', sans-serif" font-weight="500" font-size="11" letter-spacing="0.5" fill="#8892B0">
+    Connecting to Digital World
+  </text>
+</svg>
