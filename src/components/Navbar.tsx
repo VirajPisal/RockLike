@@ -223,23 +223,8 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Right CTA Actions: Log in + Contact me pill */}
+          {/* Right CTA Action: Contact me pill */}
           <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexShrink: 0 }}>
-            <Link
-              to="/contact"
-              style={{
-                fontFamily: "var(--font-fine)",
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                color: "var(--text-secondary)",
-                textDecoration: "none",
-                transition: "color var(--ease-fast)",
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#FFFFFF")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--text-secondary)")}
-            >
-              Log in
-            </Link>
             <Link
               to="/contact"
               className="nav-cta"

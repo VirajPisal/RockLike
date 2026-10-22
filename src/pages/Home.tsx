@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import VideoModal from "../components/VideoModal";
-import type { VideoProject } from "../data/videoProduction";
 import {
   BrandStrategyIcon,
   ExperienceDesignIcon,
@@ -14,7 +12,7 @@ import {
 } from "../components/icons/CapabilityIcons";
 
 // ─── Capability Cards Data (Eight Integrated Capabilities) ───
-const capabilities = [
+const capabilitiesRow1 = [
   {
     num: "01.",
     title: "Brand Strategy",
@@ -43,6 +41,9 @@ const capabilities = [
     icon: GrowthMarketingIcon,
     href: "/services/performance-marketing",
   },
+];
+
+const capabilitiesRow2 = [
   {
     num: "05.",
     title: "Brand Building",
@@ -73,41 +74,14 @@ const capabilities = [
   },
 ];
 
-// ─── Selected Work Items for Cinematic Slider ───
-const workShowcase = [
-  {
-    id: "work-1",
-    client: "AstraTech Global",
-    title: "Next-Gen Fintech Launch",
-    category: "Film & Content Creation",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&h=750&fit=crop&auto=format",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  },
-  {
-    id: "work-2",
-    client: "Aura Couture",
-    title: "Luxury Brand Universe",
-    category: "Brand & Experience",
-    image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=750&fit=crop&auto=format",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  },
-  {
-    id: "work-3",
-    client: "Kinetix Mobility",
-    title: "Autonomous EV Horizon",
-    category: "Cinematic Film",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&h=750&fit=crop&auto=format",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  },
-];
-
 export default function Home() {
-  const [activeVideo, setActiveVideo] = useState<VideoProject | null>(null);
-  const [activeSlide, setActiveSlide] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
+  const [capScrollRatio, setCapScrollRatio] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
+  const capSectionRef = useRef<HTMLElement>(null);
 
-  // Smooth mouse parallax for floating glass spheres
+  // Mouse parallax for floating optical glass spheres
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!heroRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
@@ -116,20 +90,25 @@ export default function Home() {
     setMousePos({ x, y });
   };
 
-  const handleOpenShowreel = () => {
-    setActiveVideo({
-      id: "showreel-main",
-      client: "RockLike Techventures",
-      title: "Agency Showreel 2026 — We Make Brands Move",
-      category: "Cinematic Showreel",
-      duration: "02:14",
-      description: "A showcase of venture-scale brand architecture, cinematic film production, and digital acceleration.",
-      thumbnail: "/assets/landing/hero_visual_2x.png",
-      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      year: 2026,
-      tags: ["Cinematic", "Brand Architecture", "Growth Acceleration"],
-    });
-  };
+  // Scroll listener for dynamic text sliding and card glide
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      setScrollY(currentScroll);
+
+      if (capSectionRef.current) {
+        const rect = capSectionRef.current.getBoundingClientRect();
+        const windowH = window.innerHeight;
+        // Normalized progress: 0 when entering viewport, 1 when leaving
+        const progress = Math.min(Math.max((windowH - rect.top) / (windowH + rect.height), 0), 1);
+        setCapScrollRatio(progress);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <main
@@ -141,6 +120,7 @@ export default function Home() {
     >
       {/* ════════════════════════════════════════════════════════════
           1. HERO SECTION: "WE MAKE BRANDS MOVE."
+          With Dynamic Scroll-Driven Text Sliding & Optical Parallax
       ════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
@@ -157,7 +137,7 @@ export default function Home() {
           backgroundColor: "#07090E",
         }}
       >
-        {/* Background Visual Plate (Clean Liquid Blue & Molten Gold Wave in Dark Studio) */}
+        {/* Crystal-Clear 2K Background Plate (Ultra Sharp, Zero Smudge) */}
         <div
           aria-hidden
           style={{
@@ -167,25 +147,25 @@ export default function Home() {
             backgroundSize: "cover",
             backgroundPosition: "center right",
             backgroundRepeat: "no-repeat",
-            opacity: 0.98,
+            imageRendering: "auto",
             zIndex: 0,
           }}
         />
 
-        {/* Ambient Studio Lighting Glows */}
+        {/* Ambient Subtle Studio Spotlight (Sharp Contrast) */}
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(circle at 75% 50%, rgba(13,82,156,0.18) 0%, transparent 60%), radial-gradient(circle at 60% 75%, rgba(212,160,36,0.12) 0%, transparent 50%), linear-gradient(180deg, rgba(7,9,14,0.6) 0%, transparent 35%, rgba(7,9,14,0.85) 100%)",
+              "radial-gradient(circle at 75% 50%, rgba(13,82,156,0.15) 0%, transparent 60%), radial-gradient(circle at 65% 80%, rgba(212,160,36,0.1) 0%, transparent 50%)",
             pointerEvents: "none",
             zIndex: 1,
           }}
         />
 
-        {/* Levitating Optical Glass Spheres with Dynamic Mouse Parallax */}
+        {/* Levitating Optical Glass Spheres with Dynamic Mouse Parallax & Scroll Float */}
         <div
           aria-hidden
           style={{
@@ -203,7 +183,7 @@ export default function Home() {
               left: "65%",
               width: "74px",
               height: "74px",
-              transform: `translate(${mousePos.x * 24}px, ${mousePos.y * 24}px)`,
+              transform: `translate(${mousePos.x * 28}px, ${mousePos.y * 28 - scrollY * 0.4}px)`,
               transition: "transform 150ms cubic-bezier(0.1, 0.9, 0.2, 1)",
               animation: "floatLevitate 5s ease-in-out infinite",
             }}
@@ -214,7 +194,7 @@ export default function Home() {
               style={{
                 width: "100%",
                 height: "100%",
-                filter: "drop-shadow(0 8px 24px rgba(13,82,156,0.35)) drop-shadow(0 2px 10px rgba(212,160,36,0.3))",
+                filter: "drop-shadow(0 8px 24px rgba(13,82,156,0.4)) drop-shadow(0 2px 10px rgba(212,160,36,0.35))",
               }}
             />
           </div>
@@ -227,7 +207,7 @@ export default function Home() {
               left: "75%",
               width: "40px",
               height: "40px",
-              transform: `translate(${mousePos.x * -16}px, ${mousePos.y * -16}px)`,
+              transform: `translate(${mousePos.x * -18}px, ${mousePos.y * -18 - scrollY * 0.6}px)`,
               transition: "transform 180ms cubic-bezier(0.1, 0.9, 0.2, 1)",
               animation: "floatLevitate 6.5s ease-in-out infinite 1s",
             }}
@@ -238,7 +218,7 @@ export default function Home() {
               style={{
                 width: "100%",
                 height: "100%",
-                filter: "drop-shadow(0 4px 16px rgba(13,82,156,0.3))",
+                filter: "drop-shadow(0 4px 16px rgba(13,82,156,0.35))",
               }}
             />
           </div>
@@ -251,7 +231,7 @@ export default function Home() {
               left: "59%",
               width: "40px",
               height: "40px",
-              transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`,
+              transform: `translate(${mousePos.x * 32}px, ${mousePos.y * 32 - scrollY * 0.25}px)`,
               transition: "transform 200ms cubic-bezier(0.1, 0.9, 0.2, 1)",
               animation: "floatLevitate 5.8s ease-in-out infinite 2s",
             }}
@@ -262,7 +242,7 @@ export default function Home() {
               style={{
                 width: "100%",
                 height: "100%",
-                filter: "drop-shadow(0 4px 18px rgba(212,160,36,0.35))",
+                filter: "drop-shadow(0 4px 18px rgba(212,160,36,0.4))",
               }}
             />
           </div>
@@ -281,8 +261,8 @@ export default function Home() {
             width: "100%",
           }}
         >
-          {/* Left Column: Eyebrow, Monumental Typography, Thesis & Showreel CTA */}
-          <div style={{ maxWidth: "720px" }}>
+          {/* Left Column: Eyebrow, Kinetic Typography, Narrative & CTA */}
+          <div style={{ maxWidth: "760px" }}>
             {/* Left Eyebrow Ticker */}
             <div
               style={{
@@ -290,11 +270,14 @@ export default function Home() {
                 alignItems: "center",
                 gap: "0.75rem",
                 padding: "0.35rem 0.85rem",
-                backgroundColor: "rgba(13,82,156,0.12)",
-                border: "1px solid rgba(13,82,156,0.35)",
+                backgroundColor: "rgba(13,82,156,0.14)",
+                border: "1px solid rgba(13,82,156,0.45)",
                 borderRadius: "9999px",
                 marginBottom: "1.75rem",
-                backdropFilter: "blur(8px)",
+                backdropFilter: "blur(12px)",
+                transform: `translateX(${-scrollY * 0.15}px)`,
+                opacity: Math.max(0, 1 - scrollY / 400),
+                transition: "transform 80ms ease-out",
               }}
             >
               <span
@@ -303,7 +286,7 @@ export default function Home() {
                   height: "0.45rem",
                   borderRadius: "50%",
                   backgroundColor: "var(--clr-gold)",
-                  boxShadow: "0 0 8px var(--clr-gold)",
+                  boxShadow: "0 0 10px var(--clr-gold)",
                 }}
               />
               <span
@@ -320,7 +303,7 @@ export default function Home() {
               </span>
             </div>
 
-            {/* Headline: "WE MAKE BRANDS MOVE." */}
+            {/* Kinetic Scroll-Sliding Headline: "WE MAKE BRANDS MOVE." */}
             <h1
               style={{
                 margin: "0 0 1.5rem",
@@ -329,148 +312,150 @@ export default function Home() {
                 textTransform: "uppercase",
               }}
             >
-              {/* "WE MAKE" in Editorial Italic Serif */}
+              {/* "WE MAKE" — Slides gently Left on scroll down */}
               <span
                 style={{
                   display: "block",
                   fontFamily: "var(--font-serif)",
                   fontWeight: 700,
                   fontStyle: "italic",
-                  fontSize: "clamp(3.5rem, 8.5vw, 7.8rem)",
+                  fontSize: "clamp(3.8rem, 8.8vw, 8rem)",
                   color: "#FFFFFF",
-                  textShadow: "0 2px 24px rgba(0,0,0,0.6)",
+                  textShadow: "0 4px 30px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.9)",
                   letterSpacing: "-0.02em",
+                  transform: `translateX(${-scrollY * 0.35}px)`,
+                  opacity: Math.max(0, 1 - scrollY / 650),
+                  transition: "transform 80ms ease-out",
+                  willChange: "transform, opacity",
                 }}
               >
                 WE MAKE
               </span>
 
-              {/* "BRANDS MOVE." in Monumental Condensed Gold */}
+              {/* "BRANDS MOVE." — Slides smoothly Right on scroll down */}
               <span
                 style={{
                   display: "block",
                   fontFamily: "var(--font-display)",
                   fontWeight: 900,
-                  fontSize: "clamp(4.2rem, 11vw, 9.6rem)",
+                  fontSize: "clamp(4.5rem, 11.5vw, 10rem)",
                   letterSpacing: "0.01em",
-                  background: "linear-gradient(180deg, #F5D77F 0%, #D4A024 45%, #9E7412 100%)",
+                  background: "linear-gradient(180deg, #F8E29D 0%, #D4A024 45%, #9E7412 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 4px 32px rgba(212,160,36,0.35))",
+                  filter: "drop-shadow(0 6px 36px rgba(212,160,36,0.45))",
+                  transform: `translateX(${scrollY * 0.35}px)`,
+                  opacity: Math.max(0, 1 - scrollY / 700),
+                  transition: "transform 80ms ease-out",
+                  willChange: "transform, opacity",
                 }}
               >
                 BRANDS MOVE.
               </span>
             </h1>
 
-            {/* Thesis Statement */}
+            {/* Narrative Subhead with Scroll Parallax */}
             <p
               style={{
                 fontFamily: "var(--font-body)",
-                fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
+                fontSize: "clamp(1.1rem, 1.85vw, 1.3rem)",
                 lineHeight: 1.6,
-                color: "var(--text-secondary)",
-                maxWidth: "520px",
+                color: "rgba(247,245,242,0.85)",
+                maxWidth: "540px",
                 margin: "0 0 2.5rem",
                 fontWeight: 400,
+                transform: `translateY(${scrollY * 0.2}px)`,
+                opacity: Math.max(0, 1 - scrollY / 500),
+                transition: "transform 80ms ease-out",
               }}
             >
               A venture-scale creative & growth studio for ambitious brands, bold stories and unmatched impact.
             </p>
 
-            {/* CTA Group: Watch Showreel & Tracker */}
+            {/* Direct Studio Call-To-Action (Showreel removed as requested) */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "1.75rem",
-                flexWrap: "wrap",
+                gap: "1.25rem",
+                transform: `translateY(${scrollY * 0.25}px)`,
+                opacity: Math.max(0, 1 - scrollY / 550),
+                transition: "transform 80ms ease-out",
               }}
             >
-              {/* Watch Showreel Circular Button */}
-              <button
-                type="button"
-                onClick={handleOpenShowreel}
+              <a
+                href="#capabilities"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.875rem",
-                  background: "rgba(13,82,156,0.15)",
-                  border: "1px solid rgba(13,82,156,0.4)",
-                  padding: "0.5rem 1.35rem 0.5rem 0.5rem",
+                  gap: "0.75rem",
+                  backgroundColor: "var(--clr-gold)",
+                  color: "#07090E",
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.8125rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  padding: "0.875rem 2rem",
                   borderRadius: "9999px",
-                  color: "#FFFFFF",
-                  cursor: "pointer",
-                  backdropFilter: "blur(12px)",
-                  boxShadow: "0 4px 20px rgba(13,82,156,0.25)",
+                  textDecoration: "none",
+                  boxShadow: "0 4px 20px rgba(212,160,36,0.35)",
                   transition: "all var(--ease-base)",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
-                  el.style.borderColor = "var(--clr-gold)";
-                  el.style.transform = "translateY(-2px)";
-                  el.style.boxShadow = "0 6px 28px rgba(212,160,36,0.35)";
+                  el.style.backgroundColor = "var(--clr-gold-light)";
+                  el.style.transform = "translateY(-2px) scale(1.02)";
+                  el.style.boxShadow = "0 8px 30px rgba(212,160,36,0.55)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
-                  el.style.borderColor = "rgba(13,82,156,0.4)";
-                  el.style.transform = "translateY(0)";
-                  el.style.boxShadow = "0 4px 20px rgba(13,82,156,0.25)";
+                  el.style.backgroundColor = "var(--clr-gold)";
+                  el.style.transform = "translateY(0) scale(1)";
+                  el.style.boxShadow = "0 4px 20px rgba(212,160,36,0.35)";
                 }}
               >
-                {/* Glowing Pulse Play Disc */}
-                <span
-                  style={{
-                    width: "44px",
-                    height: "44px",
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #0D529C 0%, #083464 100%)",
-                    border: "1px solid rgba(255,255,255,0.25)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 0 16px rgba(13,82,156,0.5)",
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M4 2.5L14 8L4 13.5V2.5Z" fill="#FFFFFF" />
-                  </svg>
-                </span>
+                <span>Explore Capabilities</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 3V13M13 8L8 13L3 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
 
-                <span
-                  style={{
-                    fontFamily: "var(--font-fine)",
-                    fontSize: "0.8125rem",
-                    fontWeight: 700,
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  WATCH SHOWREEL
-                </span>
-              </button>
-
-              {/* Progress Index Tracker (01 — 05) */}
-              <div
+              <Link
+                to="/contact"
                 style={{
-                  display: "flex",
+                  display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.75rem",
-                  color: "var(--text-muted)",
+                  gap: "0.5rem",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  color: "#FFFFFF",
                   fontFamily: "var(--font-fine)",
                   fontSize: "0.8125rem",
-                  letterSpacing: "0.12em",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  padding: "0.875rem 1.75rem",
+                  borderRadius: "9999px",
+                  textDecoration: "none",
+                  backdropFilter: "blur(12px)",
+                  transition: "all var(--ease-base)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "var(--clr-gold)";
+                  e.currentTarget.style.color = "var(--clr-gold)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+                  e.currentTarget.style.color = "#FFFFFF";
                 }}
               >
-                <span style={{ height: "1px", width: "40px", backgroundColor: "rgba(255,255,255,0.2)" }} />
-                <span style={{ color: "var(--clr-gold)", fontWeight: 700 }}>01</span>
-                <span>/</span>
-                <span>05</span>
-              </div>
+                <span>Start Project</span>
+              </Link>
             </div>
           </div>
 
-          {/* Right Column: Asymmetric Agency Impact Stats */}
+          {/* Right Column: Asymmetric Agency Impact Stats (Smooth Parallax) */}
           <div
             style={{
               display: "flex",
@@ -478,6 +463,9 @@ export default function Home() {
               gap: "2.25rem",
               paddingLeft: "2rem",
               borderLeft: "1px solid rgba(255,255,255,0.08)",
+              transform: `translateY(${-scrollY * 0.25}px)`,
+              opacity: Math.max(0, 1 - scrollY / 750),
+              transition: "transform 80ms ease-out",
             }}
             className="hidden lg:flex"
           >
@@ -492,6 +480,7 @@ export default function Home() {
                   background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
                 09+
@@ -500,8 +489,8 @@ export default function Home() {
                 style={{
                   fontFamily: "var(--font-fine)",
                   fontSize: "0.6875rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.16em",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   color: "var(--text-secondary)",
                   marginTop: "0.25rem",
@@ -522,6 +511,7 @@ export default function Home() {
                   background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
                 300+
@@ -530,8 +520,8 @@ export default function Home() {
                 style={{
                   fontFamily: "var(--font-fine)",
                   fontSize: "0.6875rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.16em",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   color: "var(--text-secondary)",
                   marginTop: "0.25rem",
@@ -552,6 +542,7 @@ export default function Home() {
                   background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
                 $48M+
@@ -560,8 +551,8 @@ export default function Home() {
                 style={{
                   fontFamily: "var(--font-fine)",
                   fontSize: "0.6875rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.16em",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   color: "var(--text-secondary)",
                   marginTop: "0.25rem",
@@ -582,6 +573,7 @@ export default function Home() {
                   background: "linear-gradient(180deg, #FFFFFF 0%, #D4A024 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
                 1,200+
@@ -590,8 +582,8 @@ export default function Home() {
                 style={{
                   fontFamily: "var(--font-fine)",
                   fontSize: "0.6875rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.16em",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   color: "var(--text-secondary)",
                   marginTop: "0.25rem",
@@ -603,11 +595,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom Scroll Anchor */}
+        {/* Bottom Scroll Guide */}
         <div
           style={{
             position: "absolute",
-            bottom: "1.5rem",
+            bottom: "1.75rem",
             left: "var(--grid-gutter)",
             display: "flex",
             alignItems: "center",
@@ -615,15 +607,16 @@ export default function Home() {
             color: "var(--text-muted)",
             fontFamily: "var(--font-fine)",
             fontSize: "0.6875rem",
-            letterSpacing: "0.18em",
+            letterSpacing: "0.2em",
             textTransform: "uppercase",
             zIndex: 3,
+            opacity: Math.max(0, 1 - scrollY / 250),
           }}
         >
           <span
             style={{
-              width: "16px",
-              height: "16px",
+              width: "18px",
+              height: "18px",
               borderRadius: "50%",
               border: "1px solid var(--clr-gold)",
               display: "flex",
@@ -633,14 +626,16 @@ export default function Home() {
           >
             <span style={{ width: "4px", height: "4px", borderRadius: "50%", backgroundColor: "var(--clr-gold)" }} />
           </span>
-          <span>Scroll to explore</span>
+          <span>Scroll to slide</span>
         </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════
           2. EIGHT INTEGRATED CAPABILITIES (WARM IVORY CANVAS)
+          With Dynamic Scroll-Driven Horizontal Card Gliding
       ════════════════════════════════════════════════════════════ */}
       <section
+        ref={capSectionRef}
         id="capabilities"
         aria-label="Eight Integrated Capabilities"
         style={{
@@ -649,14 +644,17 @@ export default function Home() {
           paddingTop: "6.5rem",
           paddingBottom: "6.5rem",
           position: "relative",
+          overflow: "hidden",
         }}
       >
-        <div className="container">
-          {/* Section Header */}
+        <div className="container" style={{ position: "relative", zIndex: 2 }}>
+          {/* Section Header with Parallax Float */}
           <div
             style={{
-              maxWidth: "680px",
+              maxWidth: "720px",
               marginBottom: "3.5rem",
+              transform: `translateY(${(0.5 - capScrollRatio) * 30}px)`,
+              transition: "transform 100ms ease-out",
             }}
           >
             <span
@@ -698,438 +696,336 @@ export default function Home() {
               From brand identity and cinematic production to full-funnel media acquisition and franchise scaling — everything your brand needs under one roof.
             </p>
           </div>
+        </div>
 
-          {/* 2×4 Modular Capabilities Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {capabilities.map((cap) => {
-              const IconComponent = cap.icon;
-              return (
-                <Link
-                  key={cap.num}
-                  to={cap.href}
+        {/* ─── Row 1: Cards 01 to 04 (Glides Left As You Scroll) ─── */}
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            paddingLeft: "max(1.5rem, calc((100vw - 1440px) / 2 + 1.5rem))",
+            paddingRight: "1.5rem",
+            marginBottom: "1.5rem",
+            transform: `translateX(${(0.5 - capScrollRatio) * 110}px)`,
+            transition: "transform 80ms ease-out",
+            willChange: "transform",
+          }}
+        >
+          {capabilitiesRow1.map((cap) => {
+            const IconComponent = cap.icon;
+            return (
+              <Link
+                key={cap.num}
+                to={cap.href}
+                style={{
+                  backgroundColor: "var(--clr-ivory-card)",
+                  border: "1px solid var(--clr-ivory-border)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "2rem 1.75rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  minWidth: "310px",
+                  maxWidth: "340px",
+                  minHeight: "240px",
+                  textDecoration: "none",
+                  color: "inherit",
+                  flexShrink: 0,
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.03)",
+                  transition: "all var(--ease-base)",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(-6px)";
+                  el.style.borderColor = "var(--clr-gold)";
+                  el.style.boxShadow = "0 16px 36px rgba(212,160,36,0.18)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(0)";
+                  el.style.borderColor = "var(--clr-ivory-border)";
+                  el.style.boxShadow = "0 2px 10px rgba(0,0,0,0.03)";
+                }}
+              >
+                {/* Top Bar: Numeral & Icon */}
+                <div
                   style={{
-                    backgroundColor: "var(--clr-ivory-card)",
-                    border: "1px solid var(--clr-ivory-border)",
-                    borderRadius: "var(--radius-md)",
-                    padding: "2rem 1.75rem",
                     display: "flex",
-                    flexDirection: "column",
+                    alignItems: "center",
                     justifyContent: "space-between",
-                    minHeight: "230px",
-                    textDecoration: "none",
-                    color: "inherit",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
-                    transition: "all var(--ease-base)",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget;
-                    el.style.transform = "translateY(-4px)";
-                    el.style.borderColor = "var(--clr-gold)";
-                    el.style.boxShadow = "0 12px 32px rgba(212,160,36,0.14)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget;
-                    el.style.transform = "translateY(0)";
-                    el.style.borderColor = "var(--clr-ivory-border)";
-                    el.style.boxShadow = "0 2px 10px rgba(0,0,0,0.02)";
+                    marginBottom: "1.25rem",
                   }}
                 >
-                  {/* Top Bar: Numeral & Icon */}
-                  <div
+                  <span
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: "1.25rem",
+                      fontFamily: "var(--font-display)",
+                      fontSize: "2rem",
+                      fontWeight: 900,
+                      color: "var(--clr-gold)",
+                      lineHeight: 1,
                     }}
                   >
-                    <span
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: "2rem",
-                        fontWeight: 900,
-                        color: "var(--clr-gold)",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {cap.num}
-                    </span>
-                    <div
-                      style={{
-                        width: "44px",
-                        height: "44px",
-                        borderRadius: "50%",
-                        backgroundColor: "#F7F4EE",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#0D529C",
-                      }}
-                    >
-                      <IconComponent size={22} color="#0D529C" />
-                    </div>
-                  </div>
-
-                  {/* Body Content */}
-                  <div>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: "1.45rem",
-                        fontWeight: 800,
-                        color: "#1C1917",
-                        marginBottom: "0.6rem",
-                        lineHeight: 1.15,
-                        letterSpacing: "0.01em",
-                      }}
-                    >
-                      {cap.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "var(--font-body)",
-                        fontSize: "0.875rem",
-                        color: "var(--clr-ivory-muted)",
-                        lineHeight: 1.55,
-                        margin: 0,
-                      }}
-                    >
-                      {cap.description}
-                    </p>
-                  </div>
-
-                  {/* Arrow Indicator */}
+                    {cap.num}
+                  </span>
                   <div
                     style={{
-                      marginTop: "1.5rem",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.4rem",
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      fontFamily: "var(--font-fine)",
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "var(--clr-royal-blue)",
-                    }}
-                  >
-                    <span>Explore</span>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Bottom Capabilities Action */}
-          <div style={{ marginTop: "3rem", textAlign: "center" }}>
-            <Link
-              to="/services"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.65rem",
-                padding: "0.875rem 2rem",
-                borderRadius: "9999px",
-                border: "1px solid var(--clr-ivory-border)",
-                backgroundColor: "#FFFFFF",
-                color: "#1C1917",
-                fontFamily: "var(--font-fine)",
-                fontSize: "0.8125rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-                transition: "all var(--ease-fast)",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                el.style.backgroundColor = "var(--clr-gold)";
-                el.style.borderColor = "var(--clr-gold)";
-                el.style.transform = "translateY(-1px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                el.style.backgroundColor = "#FFFFFF";
-                el.style.borderColor = "var(--clr-ivory-border)";
-                el.style.transform = "translateY(0)";
-              }}
-            >
-              <span>Explore All Capabilities</span>
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════
-          3. STORIES THAT MOVE PEOPLE (CINEMATIC WORK SHOWCASE)
-      ════════════════════════════════════════════════════════════ */}
-      <section
-        id="work"
-        aria-label="Selected Work — Stories That Move People"
-        style={{
-          backgroundColor: "#07090E",
-          paddingTop: "6.5rem",
-          paddingBottom: "6.5rem",
-          position: "relative",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <div className="container">
-          {/* Header with Navigation Controls */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              marginBottom: "3.5rem",
-              flexWrap: "wrap",
-              gap: "1.5rem",
-            }}
-          >
-            <div>
-              <span
-                style={{
-                  fontFamily: "var(--font-fine)",
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--clr-gold)",
-                  display: "block",
-                  marginBottom: "0.5rem",
-                }}
-              >
-                SELECTED WORK
-              </span>
-              <h2
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  margin: 0,
-                  lineHeight: 1.1,
-                }}
-              >
-                Stories That Move People.
-              </h2>
-            </div>
-
-            {/* Slider Controls */}
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <button
-                type="button"
-                onClick={() => setActiveSlide((prev) => (prev > 0 ? prev - 1 : workShowcase.length - 1))}
-                aria-label="Previous Project"
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backgroundColor: "rgba(255,255,255,0.03)",
-                  color: "#FFFFFF",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  transition: "all var(--ease-fast)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "var(--clr-gold)";
-                  e.currentTarget.style.backgroundColor = "rgba(212,160,36,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)";
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-                  <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveSlide((prev) => (prev < workShowcase.length - 1 ? prev + 1 : 0))}
-                aria-label="Next Project"
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backgroundColor: "rgba(255,255,255,0.03)",
-                  color: "#FFFFFF",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  transition: "all var(--ease-fast)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "var(--clr-gold)";
-                  e.currentTarget.style.backgroundColor = "rgba(212,160,36,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)";
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Cinematic Work Showcase Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "2rem",
-            }}
-          >
-            {workShowcase.map((item, idx) => (
-              <div
-                key={item.id}
-                style={{
-                  position: "relative",
-                  borderRadius: "var(--radius-lg)",
-                  overflow: "hidden",
-                  backgroundColor: "var(--surface-1)",
-                  border: idx === activeSlide ? "1px solid var(--clr-gold)" : "1px solid rgba(255,255,255,0.08)",
-                  boxShadow: idx === activeSlide ? "0 12px 40px rgba(212,160,36,0.18)" : "none",
-                  transition: "all var(--ease-base)",
-                  cursor: "pointer",
-                }}
-                onClick={() =>
-                  setActiveVideo({
-                    id: item.id,
-                    client: item.client,
-                    title: item.title,
-                    category: item.category,
-                    duration: "01:45",
-                    description: "High-impact narrative and production work engineered for market disruption.",
-                    thumbnail: item.image,
-                    videoUrl: item.videoUrl,
-                    year: 2025,
-                    tags: ["Production", "Cinematic", "Launch"],
-                  })
-                }
-              >
-                {/* Visual Thumbnail */}
-                <div style={{ position: "relative", height: "340px", overflow: "hidden" }}>
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      transition: "transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1)",
-                    }}
-                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.06)")}
-                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: "linear-gradient(180deg, transparent 40%, rgba(7,9,14,0.92) 100%)",
-                    }}
-                  />
-
-                  {/* Play Trigger Badge */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "1.25rem",
-                      right: "1.25rem",
-                      width: "48px",
-                      height: "48px",
+                      width: "44px",
+                      height: "44px",
                       borderRadius: "50%",
-                      backgroundColor: "rgba(7,9,14,0.7)",
-                      backdropFilter: "blur(12px)",
-                      border: "1px solid rgba(255,255,255,0.2)",
+                      backgroundColor: "#F7F4EE",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: "#FFFFFF",
+                      color: "#0D529C",
                     }}
                   >
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                      <path d="M4 2.5L14 8L4 13.5V2.5Z" fill="var(--clr-gold)" />
-                    </svg>
+                    <IconComponent size={22} color="#0D529C" />
                   </div>
                 </div>
 
-                {/* Content Overlay */}
-                <div style={{ padding: "1.75rem 1.5rem" }}>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-fine)",
-                      fontSize: "0.6875rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "var(--clr-gold)",
-                      display: "block",
-                      marginBottom: "0.35rem",
-                    }}
-                  >
-                    {item.category}
-                  </span>
+                {/* Body Content */}
+                <div>
                   <h3
                     style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: "1.75rem",
+                      fontSize: "1.45rem",
                       fontWeight: 800,
-                      color: "#FFFFFF",
-                      margin: "0 0 0.4rem",
+                      color: "#1C1917",
+                      marginBottom: "0.6rem",
+                      lineHeight: 1.15,
                     }}
                   >
-                    {item.client}
+                    {cap.title}
                   </h3>
                   <p
                     style={{
                       fontFamily: "var(--font-body)",
-                      fontSize: "0.9375rem",
-                      color: "var(--text-secondary)",
+                      fontSize: "0.875rem",
+                      color: "var(--clr-ivory-muted)",
+                      lineHeight: 1.55,
                       margin: 0,
                     }}
                   >
-                    {item.title}
+                    {cap.description}
                   </p>
                 </div>
-              </div>
-            ))}
-          </div>
+
+                {/* Arrow Action */}
+                <div
+                  style={{
+                    marginTop: "1.5rem",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    fontFamily: "var(--font-fine)",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-royal-blue)",
+                  }}
+                >
+                  <span>Explore</span>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* ─── Row 2: Cards 05 to 08 (Glides Right As You Scroll) ─── */}
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            paddingLeft: "max(1.5rem, calc((100vw - 1440px) / 2 + 1.5rem))",
+            paddingRight: "1.5rem",
+            transform: `translateX(${-(0.5 - capScrollRatio) * 110}px)`,
+            transition: "transform 80ms ease-out",
+            willChange: "transform",
+          }}
+        >
+          {capabilitiesRow2.map((cap) => {
+            const IconComponent = cap.icon;
+            return (
+              <Link
+                key={cap.num}
+                to={cap.href}
+                style={{
+                  backgroundColor: "var(--clr-ivory-card)",
+                  border: "1px solid var(--clr-ivory-border)",
+                  borderRadius: "var(--radius-md)",
+                  padding: "2rem 1.75rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  minWidth: "310px",
+                  maxWidth: "340px",
+                  minHeight: "240px",
+                  textDecoration: "none",
+                  color: "inherit",
+                  flexShrink: 0,
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.03)",
+                  transition: "all var(--ease-base)",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(-6px)";
+                  el.style.borderColor = "var(--clr-gold)";
+                  el.style.boxShadow = "0 16px 36px rgba(212,160,36,0.18)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(0)";
+                  el.style.borderColor = "var(--clr-ivory-border)";
+                  el.style.boxShadow = "0 2px 10px rgba(0,0,0,0.03)";
+                }}
+              >
+                {/* Top Bar: Numeral & Icon */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "1.25rem",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "2rem",
+                      fontWeight: 900,
+                      color: "var(--clr-gold)",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {cap.num}
+                  </span>
+                  <div
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      borderRadius: "50%",
+                      backgroundColor: "#F7F4EE",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#0D529C",
+                    }}
+                  >
+                    <IconComponent size={22} color="#0D529C" />
+                  </div>
+                </div>
+
+                {/* Body Content */}
+                <div>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1.45rem",
+                      fontWeight: 800,
+                      color: "#1C1917",
+                      marginBottom: "0.6rem",
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    {cap.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.875rem",
+                      color: "var(--clr-ivory-muted)",
+                      lineHeight: 1.55,
+                      margin: 0,
+                    }}
+                  >
+                    {cap.description}
+                  </p>
+                </div>
+
+                {/* Arrow Action */}
+                <div
+                  style={{
+                    marginTop: "1.5rem",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    fontFamily: "var(--font-fine)",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-royal-blue)",
+                  }}
+                >
+                  <span>Explore</span>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Bottom Capabilities Action */}
+        <div style={{ marginTop: "3.5rem", textAlign: "center" }}>
+          <Link
+            to="/services"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.65rem",
+              padding: "0.875rem 2.25rem",
+              borderRadius: "9999px",
+              border: "1px solid var(--clr-ivory-border)",
+              backgroundColor: "#FFFFFF",
+              color: "#1C1917",
+              fontFamily: "var(--font-fine)",
+              fontSize: "0.8125rem",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+              transition: "all var(--ease-fast)",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget;
+              el.style.backgroundColor = "var(--clr-gold)";
+              el.style.borderColor = "var(--clr-gold)";
+              el.style.transform = "translateY(-2px)";
+              el.style.boxShadow = "0 8px 24px rgba(212,160,36,0.25)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget;
+              el.style.backgroundColor = "#FFFFFF";
+              el.style.borderColor = "var(--clr-ivory-border)";
+              el.style.transform = "translateY(0)";
+              el.style.boxShadow = "0 2px 12px rgba(0,0,0,0.04)";
+            }}
+          >
+            <span>Explore All Capabilities</span>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
         </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════
-          4. BEYOND NUMBERS. REAL IMPACT. (SIGNATURE CRYSTAL MONOLITH)
+          3. BEYOND NUMBERS. REAL IMPACT. (SIGNATURE CRYSTAL MONOLITH)
       ════════════════════════════════════════════════════════════ */}
       <section
         id="impact"
         aria-label="Beyond Numbers. Real Impact."
         style={{
           backgroundColor: "#07090E",
-          paddingTop: "7rem",
-          paddingBottom: "7rem",
+          paddingTop: "7.5rem",
+          paddingBottom: "7.5rem",
           position: "relative",
           overflow: "hidden",
         }}
@@ -1305,8 +1201,6 @@ export default function Home() {
                     position: "relative",
                     zIndex: 2,
                     mixBlendMode: "screen",
-                    maskImage: "radial-gradient(circle at center, black 65%, transparent 98%)",
-                    WebkitMaskImage: "radial-gradient(circle at center, black 65%, transparent 98%)",
                     filter: "drop-shadow(0 16px 48px rgba(13,82,156,0.45)) drop-shadow(0 4px 20px rgba(212,160,36,0.35))",
                     animation: "floatLevitate 7s ease-in-out infinite",
                   }}
@@ -1383,7 +1277,7 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════
-          5. READY TO BUILD WHAT'S NEXT? (WARM GOLD GRADIENT CTA)
+          4. READY TO BUILD WHAT'S NEXT? (WARM GOLD GRADIENT CTA)
       ════════════════════════════════════════════════════════════ */}
       <section
         aria-label="Ready to Build What's Next Call To Action"
@@ -1503,9 +1397,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
-      {/* Interactive Showreel Video Modal */}
-      <VideoModal video={activeVideo} onClose={() => setActiveVideo(null)} />
 
       {/* Global CSS keyframes for floating levitation */}
       <style>{`
