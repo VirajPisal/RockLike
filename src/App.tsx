@@ -68,6 +68,8 @@ export default function App() {
           <Route path="/social-media-marketing" element={<Navigate to="/services/social-media-marketing" replace />} />
           <Route path="/brand-building-strategies" element={<Navigate to="/services/brand-building-strategies" replace />} />
           <Route path="/celebrity-management" element={<Navigate to="/services/celebrity-management" replace />} />
+          <Route path="/influencer-celebrity-marketing" element={<Navigate to="/services/celebrity-management" replace />} />
+          <Route path="/services/influencer-celebrity-marketing" element={<Navigate to="/services/celebrity-management" replace />} />
           <Route path="/event-designing" element={<Navigate to="/services/event-designing" replace />} />
           <Route path="/franchise-development" element={<Navigate to="/services/franchise-development" replace />} />
 
