@@ -10,6 +10,7 @@ import {
   EventDesigningIcon,
   FranchiseDevIcon,
 } from "../components/icons/CapabilityIcons";
+import OrbitingEcosystem from "../components/home/OrbitingEcosystem";
 
 // ─── Capability Cards Data (Eight Integrated Capabilities) ───
 const capabilitiesRow1 = [
@@ -1157,55 +1158,17 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Center: Radiant Blue & Gold Crystal Monolith (User Favorite Asset) */}
+            {/* Center: Revolving Brand Ecosystem (Orbiting Satellites Around Yellow Core) */}
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 position: "relative",
+                zIndex: 2,
               }}
             >
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  maxWidth: "460px",
-                  aspectRatio: "1/1",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {/* Glowing Aura Ring */}
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    inset: "10%",
-                    borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(13,82,156,0.3) 0%, rgba(212,160,36,0.2) 60%, transparent 80%)",
-                    filter: "blur(40px)",
-                  }}
-                />
-
-                {/* Faceted Crystal Stone */}
-                <img
-                  src="/assets/landing/impact_crystal_monolith.jpg"
-                  alt="RockLike Faceted Crystal Stone Monolith"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                    position: "relative",
-                    zIndex: 2,
-                    mixBlendMode: "screen",
-                    filter: "drop-shadow(0 16px 48px rgba(13,82,156,0.45)) drop-shadow(0 4px 20px rgba(212,160,36,0.35))",
-                    animation: "floatLevitate 7s ease-in-out infinite",
-                  }}
-                />
-              </div>
+              <OrbitingEcosystem />
             </div>
 
             {/* Right Stats Column */}
