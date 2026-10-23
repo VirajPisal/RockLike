@@ -1,6 +1,7 @@
 import Breadcrumbs from "../components/Breadcrumbs";
 import SectionHeading from "../components/SectionHeading";
 import Button from "../components/Button";
+import EventPortfolioSection from "../components/events/EventPortfolioSection";
 
 export default function About() {
   return (
@@ -358,6 +359,12 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════
+          COMPANY EVENT PORTFOLIO & ACTIVATIONS
+          Dynamic Scroll-Driven Moving Text & Real Photos
+      ══════════════════════════════════════════ */}
+      <EventPortfolioSection showTitle={true} />
 
       {/* ══════════════════════════════════════════
           ABOUT CTA

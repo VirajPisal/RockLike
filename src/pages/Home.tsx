@@ -11,6 +11,7 @@ import {
   FranchiseDevIcon,
 } from "../components/icons/CapabilityIcons";
 import OrbitingEcosystem from "../components/home/OrbitingEcosystem";
+import EventPortfolioSection from "../components/events/EventPortfolioSection";
 
 // ─── Capability Cards Data (Eight Integrated Capabilities) ───
 const capabilitiesRow1 = [
@@ -1240,7 +1241,13 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════
-          4. READY TO BUILD WHAT'S NEXT? (WARM GOLD GRADIENT CTA)
+          4. LANDMARK EVENTS & EXPERIENTIAL PRODUCTION PORTFOLIO
+          With Dynamic Scroll-Driven Text Sliding & Real Photos
+      ════════════════════════════════════════════════════════════ */}
+      <EventPortfolioSection showTitle={true} />
+
+      {/* ════════════════════════════════════════════════════════════
+          5. READY TO BUILD WHAT'S NEXT? (WARM GOLD GRADIENT CTA)
       ════════════════════════════════════════════════════════════ */}
       <section
         aria-label="Ready to Build What's Next Call To Action"

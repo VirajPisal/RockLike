@@ -1,54 +1,19 @@
 import Breadcrumbs from "../components/Breadcrumbs";
-import SectionHeading from "../components/SectionHeading";
 import Button from "../components/Button";
+import EventPortfolioSection from "../components/events/EventPortfolioSection";
 
 export default function Events() {
-  const eventsList = [
-    {
-      title: "NexGen Tech Leadership Summit",
-      category: "Global Conference",
-      attendees: "3,500+ Attendees",
-      location: "Bandra Kurla Complex, Mumbai",
-      image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1000&h=650&fit=crop&auto=format",
-      description: "Designed a 360-degree curved LED stage architecture, spatial light sequencing, and real-time interactive audience polling system.",
-    },
-    {
-      title: "Aura Luxury Brand Activation",
-      category: "Experiential Pop-Up",
-      attendees: "12,000+ Footfall",
-      location: "DLF Emporio, New Delhi",
-      image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1000&h=650&fit=crop&auto=format",
-      description: "Custom immersive optical illusion tunnels, fragrance dispersion corridors, and private VIP lounge environments for high-net-worth patrons.",
-    },
-    {
-      title: "Horizon EV Global Vehicle Reveal",
-      category: "Product Launch",
-      attendees: "850k Stream Viewers",
-      location: "Bengaluru International Exhibition Centre",
-      image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1000&h=650&fit=crop&auto=format",
-      description: "A synchronized vehicular laser reveal featuring volumetric holographic projections and live audio score synthesis.",
-    },
-    {
-      title: "Starlight Creators & Culture Festival",
-      category: "Music & Creator Fest",
-      attendees: "18,000+ Attendees",
-      location: "Jio World Garden, Mumbai",
-      image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1000&h=650&fit=crop&auto=format",
-      description: "Dual main-stage festival engineering with architectural truss structures, kinetic pyrotechnics, and bespoke backstage influencer zones.",
-    },
-  ];
-
   return (
-    <main>
+    <main style={{ backgroundColor: "#F8FAFC" }}>
       {/* ══════════════════════════════════════════
-          HERO & BREADCRUMBS
+          HERO & BREADCRUMBS (FRESH LIGHT THEME)
       ══════════════════════════════════════════ */}
       <section
         style={{
           paddingTop: "calc(var(--nav-height) + 2rem)",
           paddingBottom: "4.5rem",
-          backgroundColor: "var(--surface-0)",
-          borderBottom: "1px solid var(--border-default)",
+          backgroundColor: "#FFFFFF",
+          borderBottom: "1px solid #E2E8F0",
           position: "relative",
           overflow: "hidden",
         }}
@@ -62,63 +27,76 @@ export default function Events() {
               width: "60vw",
               height: "60vw",
               maxWidth: "700px",
-              background: "radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(212,160,36,0.12) 0%, rgba(13,82,156,0.06) 50%, transparent 70%)",
             }}
           />
         </div>
 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <Breadcrumbs
-            items={[{ label: "Events & Activations" }]}
-            accent="var(--clr-events)"
+            items={[{ label: "Live Events & Production Portfolio" }]}
+            accent="#0D529C"
           />
 
-          <div style={{ maxWidth: "780px", marginTop: "2rem" }}>
+          <div style={{ maxWidth: "840px", marginTop: "2rem" }}>
             <div
               style={{
                 fontFamily: "var(--font-fine)",
-                fontSize: "var(--text-xs)",
+                fontSize: "0.8125rem",
                 fontWeight: 700,
-                letterSpacing: "0.14em",
+                letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: "var(--clr-events)",
+                color: "#D4A024",
                 marginBottom: "1rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
               }}
             >
-              Immersive Spatial Production
+              <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#D4A024" }} />
+              Statewide Event Architecture & Production
             </div>
             <h1
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 900,
-                fontSize: "clamp(3rem, 7vw, 5.5rem)",
-                lineHeight: "0.95",
-                letterSpacing: "var(--tracking-display)",
-                color: "var(--text-primary)",
+                fontSize: "clamp(2.75rem, 6vw, 5rem)",
+                lineHeight: "1.02",
+                letterSpacing: "-0.02em",
+                color: "#0F172A",
                 margin: "0 0 1.5rem",
                 textTransform: "uppercase",
               }}
             >
-              Experiences That <br />
-              <span style={{ color: "var(--clr-events)" }}>Leave a Mark.</span>
+              Monumental Gatherings. <br />
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #0D529C 0%, #1E40AF 50%, #D4A024 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Enduring Impact.
+              </span>
             </h1>
             <p
               style={{
                 fontFamily: "var(--font-body)",
                 fontSize: "clamp(1.0625rem, 1.5vw, 1.25rem)",
                 lineHeight: "1.65",
-                color: "var(--text-secondary)",
+                color: "#475569",
                 margin: "0 0 2.5rem",
+                maxWidth: "65ch",
               }}
             >
-              We design and execute monumental physical environments, summit stages, and experiential brand activations that captivate in-person audiences and ignite digital conversation.
+              From the historic 99th Akhil Bhartiya Marathi Sahitya Sammelan to industrial expos, national abacus championships, and corporate conclaves — Rocklike Techventures engineers complete spatial stage environments, influencer campaigns, dignitary protocols, and 4K broadcast video production.
             </p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-              <Button to="/services/event-designing" variant="primary" accent="var(--clr-events)">
-                Event Designing Services
+              <Button to="/services/event-designing" variant="primary" accent="#0D529C">
+                Explore Event Designing Services
               </Button>
               <Button to="/contact" variant="secondary">
-                Discuss an Event
+                Book Event Consultation
               </Button>
             </div>
           </div>
@@ -126,131 +104,65 @@ export default function Events() {
       </section>
 
       {/* ══════════════════════════════════════════
-          FEATURED PRODUCTIONS
+          INTERACTIVE EVENT PORTFOLIO WITH
+          KINETIC SCROLL MOVING TEXT & REAL PHOTOS
       ══════════════════════════════════════════ */}
-      <section className="section" style={{ backgroundColor: "var(--surface-1)" }}>
-        <div className="container">
-          <SectionHeading
-            eyebrow="Portfolio Highlights"
-            title="Selected Spatial Activations"
-            subtitle="From multi-day summits to pop-ups and launch events, engineered with sensory precision."
-            accent="var(--clr-events)"
-          />
-
-          <div
-            style={{
-              marginTop: "3.5rem",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-              gap: "2.5rem",
-            }}
-          >
-            {eventsList.map((e) => (
-              <div
-                key={e.title}
-                style={{
-                  backgroundColor: "var(--surface-2)",
-                  border: "1px solid var(--border-default)",
-                  borderRadius: "var(--radius-lg)",
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
-                  transition: "transform var(--ease-base), border-color var(--ease-base)",
-                }}
-                onMouseEnter={(el) => {
-                  (el.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                  (el.currentTarget as HTMLElement).style.borderColor = "var(--clr-events-border)";
-                }}
-                onMouseLeave={(el) => {
-                  (el.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                  (el.currentTarget as HTMLElement).style.borderColor = "var(--border-default)";
-                }}
-              >
-                <div style={{ aspectRatio: "16/10", overflow: "hidden", position: "relative" }}>
-                  <img
-                    src={e.image}
-                    alt={e.title}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "1rem",
-                      left: "1rem",
-                      backgroundColor: "rgba(10,10,10,0.8)",
-                      backdropFilter: "blur(8px)",
-                      border: "1px solid rgba(249,115,22,0.4)",
-                      padding: "0.25rem 0.625rem",
-                      borderRadius: "var(--radius-xs)",
-                      fontFamily: "var(--font-fine)",
-                      fontSize: "0.6875rem",
-                      fontWeight: 700,
-                      color: "var(--clr-events)",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {e.category}
-                  </div>
-                </div>
-
-                <div style={{ padding: "1.75rem", display: "flex", flexDirection: "column", gap: "0.75rem", flexGrow: 1 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                    <span style={{ fontFamily: "var(--font-fine)", fontSize: "0.75rem", color: "var(--text-muted)" }}>
-                      {e.location}
-                    </span>
-                    <span style={{ fontFamily: "var(--font-fine)", fontSize: "0.75rem", fontWeight: 700, color: "var(--clr-events)" }}>
-                      {e.attendees}
-                    </span>
-                  </div>
-
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 800,
-                      fontSize: "1.5rem",
-                      letterSpacing: "var(--tracking-display)",
-                      color: "var(--text-primary)",
-                      margin: 0,
-                    }}
-                  >
-                    {e.title}
-                  </h3>
-
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "0.875rem",
-                      lineHeight: "1.65",
-                      color: "var(--text-secondary)",
-                      margin: 0,
-                    }}
-                  >
-                    {e.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <EventPortfolioSection showTitle={true} />
 
       {/* ══════════════════════════════════════════
-          EVENTS CTA
+          EVENTS CTA SECTION
       ══════════════════════════════════════════ */}
-      <section className="section" style={{ backgroundColor: "var(--surface-0)", textAlign: "center" }}>
-        <div className="container" style={{ maxWidth: "600px" }}>
-          <SectionHeading
-            align="center"
-            eyebrow="Plan Your Activation"
-            title="Design Your Next Unforgettable Gathering"
-            subtitle="Stage architecture, lighting, keynote production, and attendee experience mapped end-to-end."
-            accent="var(--clr-events)"
-          />
-          <div style={{ marginTop: "2.5rem" }}>
-            <Button to="/contact" variant="primary" size="lg" accent="var(--clr-events)">
-              Request Event Consultation
-            </Button>
-          </div>
+      <section
+        style={{
+          padding: "6rem 0",
+          backgroundColor: "#FFFFFF",
+          borderTop: "1px solid #E2E8F0",
+          textAlign: "center",
+        }}
+      >
+        <div className="container" style={{ maxWidth: "680px" }}>
+          <span
+            style={{
+              fontFamily: "var(--font-fine)",
+              fontSize: "0.75rem",
+              fontWeight: 700,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#D4A024",
+              display: "block",
+              marginBottom: "1rem",
+            }}
+          >
+            Plan Your Next Milestone
+          </span>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 900,
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              color: "#0F172A",
+              textTransform: "uppercase",
+              letterSpacing: "-0.01em",
+              lineHeight: 1.15,
+              margin: "0 0 1rem",
+            }}
+          >
+            Ready to Build an Unforgettable Gathering?
+          </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "1rem",
+              lineHeight: "1.65",
+              color: "#64748B",
+              marginBottom: "2.5rem",
+            }}
+          >
+            Stage architecture, lighting choreography, celebrity management, and multi-camera live broadcast engineered with millimeter precision.
+          </p>
+          <Button to="/contact" variant="primary" size="lg" accent="#0D529C">
+            Request Event Proposal
+          </Button>
         </div>
       </section>
     </main>
