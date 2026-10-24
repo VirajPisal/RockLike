@@ -110,6 +110,10 @@ export default function EventPortfolioSection({
         >
           {[0, 1, 2].map((loop) => (
             <div key={loop} className="flex items-center gap-8 shrink-0 pr-8">
+              <span className="font-extrabold text-xs uppercase tracking-[0.24em] text-[#D4A024]">
+                ⚡ MAKE YOUR BRAND IMPOSSIBLE TO IGNORE
+              </span>
+              <span className="text-slate-300">•</span>
               <span className="font-extrabold text-xs uppercase tracking-[0.24em] text-[#0D529C]">
                 ★ 99TH AKHIL BHARTIYA MARATHI SAHITYA SAMMELAN
               </span>

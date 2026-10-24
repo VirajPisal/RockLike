@@ -356,6 +356,50 @@ export default function Home() {
               </span>
             </h1>
 
+            {/* Brand Punchline Manifesto: "MAKE YOUR BRAND IMPOSSIBLE TO IGNORE." */}
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 900,
+                fontSize: "clamp(1.15rem, 2.3vw, 1.75rem)",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "#FFFFFF",
+                margin: "0 0 1.5rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.85rem",
+                textShadow: "0 2px 16px rgba(0,0,0,0.7)",
+                transform: `translateX(${-scrollY * 0.18}px)`,
+                opacity: Math.max(0, 1 - scrollY / 600),
+                transition: "transform 80ms ease-out",
+                willChange: "transform, opacity",
+              }}
+            >
+              <span
+                style={{
+                  width: "28px",
+                  height: "3px",
+                  borderRadius: "2px",
+                  background: "linear-gradient(90deg, #0D529C 0%, #D4A024 100%)",
+                  flexShrink: 0,
+                }}
+              />
+              <span>
+                MAKE YOUR BRAND{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(135deg, #FDE68A 0%, #D4A024 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    textShadow: "none",
+                  }}
+                >
+                  IMPOSSIBLE TO IGNORE.
+                </span>
+              </span>
+            </div>
+
             {/* Narrative Subhead with Scroll Parallax */}
             <p
               style={{
