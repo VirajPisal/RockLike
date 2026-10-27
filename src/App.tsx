@@ -17,6 +17,8 @@ import CelebrityManagement from "./pages/CelebrityManagement";
 import EventDesigning from "./pages/EventDesigning";
 import FranchiseDevelopment from "./pages/FranchiseDevelopment";
 
+import Admin from "./pages/Admin";
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -28,6 +30,13 @@ function ScrollToTop() {
 }
 
 function AppShell({ children }: { children: React.ReactNode }) {
+  const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith("/admin");
+
+  if (isAdmin) {
+    return <div style={{ minHeight: "100%" }}>{children}</div>;
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
       <Navbar />
@@ -45,6 +54,7 @@ export default function App() {
         <Routes>
           {/* Primary Top-Level Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/work" element={<Work />} />

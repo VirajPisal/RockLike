@@ -12,6 +12,7 @@ import {
 } from "../components/icons/CapabilityIcons";
 import OrbitingEcosystem from "../components/home/OrbitingEcosystem";
 import EventPortfolioSection from "../components/events/EventPortfolioSection";
+import { fetchSiteMetrics, DEFAULT_METRICS, SiteMetrics } from "../lib/supabase";
 
 // ─── Capability Cards Data (Eight Integrated Capabilities) ───
 const capabilitiesRow1 = [
@@ -77,11 +78,17 @@ const capabilitiesRow2 = [
 ];
 
 export default function Home() {
+  const [metrics, setMetrics] = useState<SiteMetrics>(DEFAULT_METRICS);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
   const [capScrollRatio, setCapScrollRatio] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
   const capSectionRef = useRef<HTMLElement>(null);
+
+  // Fetch dynamic live metrics from Supabase
+  useEffect(() => {
+    fetchSiteMetrics().then((data) => setMetrics(data));
+  }, []);
 
   // Mouse parallax for floating optical glass spheres
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -529,7 +536,7 @@ export default function Home() {
                   filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
-                09+
+                {metrics.years_experience}
               </div>
               <div
                 style={{
@@ -560,7 +567,7 @@ export default function Home() {
                   filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
-                300+
+                {metrics.brands_launched}
               </div>
               <div
                 style={{
@@ -591,7 +598,7 @@ export default function Home() {
                   filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
-                $48M+
+                {metrics.revenue_driven}
               </div>
               <div
                 style={{
@@ -622,7 +629,7 @@ export default function Home() {
                   filter: "drop-shadow(0 2px 14px rgba(212,160,36,0.3))",
                 }}
               >
-                1,200+
+                {metrics.films_created}
               </div>
               <div
                 style={{
@@ -1155,7 +1162,7 @@ export default function Home() {
                     color: "#FFFFFF",
                   }}
                 >
-                  +120%
+                  {metrics.growth_acceleration}
                 </div>
                 <div
                   style={{
@@ -1186,7 +1193,7 @@ export default function Home() {
                     color: "#FFFFFF",
                   }}
                 >
-                  260%
+                  {metrics.roi_delivered}
                 </div>
                 <div
                   style={{
@@ -1233,7 +1240,7 @@ export default function Home() {
                     color: "var(--clr-gold)",
                   }}
                 >
-                  $450M
+                  {metrics.value_created}
                 </div>
                 <div
                   style={{
@@ -1264,7 +1271,7 @@ export default function Home() {
                     color: "var(--clr-gold)",
                   }}
                 >
-                  98%
+                  {metrics.client_retention}
                 </div>
                 <div
                   style={{
