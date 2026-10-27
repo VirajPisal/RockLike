@@ -1,15 +1,12 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SectionHeading from "../components/SectionHeading";
 import Button from "../components/Button";
 import PortfolioCard from "../components/PortfolioCard";
 import LargeServiceCard from "../components/LargeServiceCard";
-import { services, type Service } from "../data/services";
+import { services } from "../data/services";
 import { portfolioItems } from "../data/portfolio";
 
 export default function Services() {
-  const [viewMode, setViewMode] = useState<"grid" | "deep">("grid");
   const featuredWork = portfolioItems.slice(0, 3);
 
   return (
@@ -117,232 +114,21 @@ export default function Services() {
       ══════════════════════════════════════════ */}
       <section id="catalog" className="section" style={{ backgroundColor: "var(--surface-1)" }}>
         <div className="container">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "2rem",
-              marginBottom: "3.5rem",
-            }}
-          >
+          <div style={{ marginBottom: "3.5rem" }}>
             <SectionHeading
-              eyebrow="Capabilities Directory"
-              title="Explore Our Core Services"
-              subtitle="Choose between quick grid overview or comprehensive architecture breakdown."
+              eyebrow="Capabilities Architecture"
+              title="Eight Specialized Disciplines"
+              subtitle="An in-depth breakdown of our eight core agency verticals, operational methodologies, and turnkey deliverables."
               accent="var(--clr-branding)"
             />
-
-            {/* View Mode Toggle Button */}
-            <div
-              style={{
-                display: "inline-flex",
-                backgroundColor: "var(--surface-2)",
-                padding: "0.25rem",
-                borderRadius: "var(--radius-sm)",
-                border: "1px solid var(--border-default)",
-              }}
-            >
-              <button
-                onClick={() => setViewMode("grid")}
-                style={{
-                  backgroundColor: viewMode === "grid" ? "var(--surface-3)" : "transparent",
-                  color: viewMode === "grid" ? "var(--text-primary)" : "var(--text-muted)",
-                  border: "none",
-                  borderRadius: "var(--radius-xs)",
-                  padding: "0.5rem 1rem",
-                  fontFamily: "var(--font-fine)",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-              >
-                <span>▦</span> Grid Overview
-              </button>
-              <button
-                onClick={() => setViewMode("deep")}
-                style={{
-                  backgroundColor: viewMode === "deep" ? "var(--surface-3)" : "transparent",
-                  color: viewMode === "deep" ? "var(--text-primary)" : "var(--text-muted)",
-                  border: "none",
-                  borderRadius: "var(--radius-xs)",
-                  padding: "0.5rem 1rem",
-                  fontFamily: "var(--font-fine)",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-              >
-                <span>☰</span> Deep Architecture
-              </button>
-            </div>
           </div>
 
-          {/* VIEW MODE 1: GRID VIEW */}
-          {viewMode === "grid" ? (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: "1.5rem",
-              }}
-            >
-              {services.map((svc, i) => (
-                <Link
-                  key={svc.id}
-                  to={svc.href}
-                  style={{
-                    backgroundColor: "var(--surface-2)",
-                    border: "1px solid var(--border-default)",
-                    borderRadius: "var(--radius-lg)",
-                    padding: "2rem",
-                    textDecoration: "none",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1.25rem",
-                    position: "relative",
-                    overflow: "hidden",
-                    transition: "transform var(--ease-base), border-color var(--ease-base), box-shadow var(--ease-base)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-                    (e.currentTarget as HTMLElement).style.borderColor = svc.accentBorder;
-                    (e.currentTarget as HTMLElement).style.boxShadow = `0 16px 40px rgba(0,0,0,0.5), 0 0 40px ${svc.accentGlow}`;
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border-default)";
-                    (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontWeight: 900,
-                        fontSize: "2rem",
-                        color: svc.accent,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div
-                      style={{
-                        width: "2rem",
-                        height: "2rem",
-                        borderRadius: "50%",
-                        backgroundColor: svc.accentGlow,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: svc.accent,
-                      }}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 800,
-                      fontSize: "1.5rem",
-                      letterSpacing: "var(--tracking-display)",
-                      color: "var(--text-primary)",
-                      margin: 0,
-                    }}
-                  >
-                    {svc.fullTitle}
-                  </h3>
-
-                  <p
-                    style={{
-                      fontFamily: "var(--font-body)",
-                      fontSize: "0.875rem",
-                      lineHeight: "1.6",
-                      color: "var(--text-secondary)",
-                      margin: 0,
-                      flexGrow: 1,
-                    }}
-                  >
-                    {svc.description}
-                  </p>
-
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
-                    {svc.highlights.map((h) => (
-                      <span
-                        key={h}
-                        style={{
-                          fontFamily: "var(--font-fine)",
-                          fontSize: "0.625rem",
-                          fontWeight: 600,
-                          letterSpacing: "0.08em",
-                          textTransform: "uppercase",
-                          color: "var(--text-muted)",
-                          backgroundColor: "var(--surface-3)",
-                          border: "1px solid var(--border-subtle)",
-                          padding: "0.2rem 0.5rem",
-                          borderRadius: "var(--radius-xs)",
-                        }}
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div
-                    style={{
-                      paddingTop: "1rem",
-                      borderTop: "1px solid var(--border-subtle)",
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontWeight: 900,
-                        fontSize: "1.25rem",
-                        color: svc.accent,
-                      }}
-                    >
-                      {svc.stat}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-fine)",
-                        fontSize: "0.6875rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        color: "var(--text-muted)",
-                      }}
-                    >
-                      {svc.statLabel}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            /* VIEW MODE 2: DEEP ARCHITECTURE (Using LargeServiceCard) */
-            <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-              {services.map((svc, idx) => (
-                <LargeServiceCard key={svc.id} service={svc} index={idx} />
-              ))}
-            </div>
-          )}
+          {/* DEEP ARCHITECTURE CARDS */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
+            {services.map((svc, idx) => (
+              <LargeServiceCard key={svc.id} service={svc} index={idx} />
+            ))}
+          </div>
         </div>
       </section>
 

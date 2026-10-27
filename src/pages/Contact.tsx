@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SectionHeading from "../components/SectionHeading";
-import Button from "../components/Button";
 
 const SERVICES_LIST = [
   "Branding Solutions",
@@ -42,7 +41,9 @@ const FAQS = [
 ];
 
 export default function Contact() {
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedServices, setSelectedServices] = useState<string[]>([
+    "Branding Solutions",
+  ]);
   const [selectedBudget, setSelectedBudget] = useState<string>("$25k – $50k");
   const [formData, setFormData] = useState({
     name: "",
@@ -52,11 +53,32 @@ export default function Contact() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedGmail, setCopiedGmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
   const toggleService = (svc: string) => {
     setSelectedServices((prev) =>
       prev.includes(svc) ? prev.filter((s) => s !== svc) : [...prev, svc]
     );
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("hello@rocklike.co");
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2200);
+  };
+
+  const handleCopyGmail = () => {
+    navigator.clipboard.writeText("rocklike.tech@gmail.com");
+    setCopiedGmail(true);
+    setTimeout(() => setCopiedGmail(false), 2200);
+  };
+
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText("+919175339499");
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2200);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -73,7 +95,7 @@ export default function Contact() {
       <section
         style={{
           paddingTop: "calc(var(--nav-height) + 2rem)",
-          paddingBottom: "4rem",
+          paddingBottom: "4.5rem",
           backgroundColor: "var(--surface-0)",
           borderBottom: "1px solid var(--border-default)",
           position: "relative",
@@ -81,64 +103,100 @@ export default function Contact() {
         }}
       >
         <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+          {/* Dual ambient glow: Royal Blue and Gold */}
           <div
             style={{
               position: "absolute",
-              top: "-20%",
-              left: "25%",
-              width: "55vw",
-              height: "55vw",
-              maxWidth: "700px",
-              background: "radial-gradient(circle, rgba(224,53,53,0.12) 0%, transparent 68%)",
+              top: "-25%",
+              left: "20%",
+              width: "60vw",
+              height: "60vw",
+              maxWidth: "750px",
+              background: "radial-gradient(circle, rgba(13,82,156,0.22) 0%, rgba(212,160,36,0.12) 45%, transparent 70%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-20%",
+              right: "5%",
+              width: "45vw",
+              height: "45vw",
+              maxWidth: "500px",
+              background: "radial-gradient(circle, rgba(212,160,36,0.08) 0%, transparent 65%)",
             }}
           />
         </div>
 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <Breadcrumbs
-            items={[{ label: "Start a Conversation" }]}
-            accent="var(--clr-branding)"
+            items={[{ label: "Direct Studio Access" }]}
+            accent="var(--clr-gold)"
           />
 
-          <div style={{ maxWidth: "780px", marginTop: "2rem" }}>
+          <div style={{ maxWidth: "800px", marginTop: "2rem" }}>
             <div
               style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.6rem",
                 fontFamily: "var(--font-fine)",
                 fontSize: "var(--text-xs)",
                 fontWeight: 700,
-                letterSpacing: "0.14em",
+                letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "var(--clr-branding)",
-                marginBottom: "1rem",
+                color: "var(--clr-gold)",
+                backgroundColor: "rgba(212, 160, 36, 0.1)",
+                border: "1px solid rgba(212, 160, 36, 0.25)",
+                padding: "0.35rem 0.85rem",
+                borderRadius: "9999px",
+                marginBottom: "1.25rem",
               }}
             >
-              Direct Studio Access
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  backgroundColor: "var(--clr-gold)",
+                  boxShadow: "0 0 8px var(--clr-gold)",
+                }}
+              />
+              Direct Studio Access &amp; Partnerships
             </div>
             <h1
               style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 900,
-                fontSize: "clamp(3rem, 7vw, 5.5rem)",
-                lineHeight: "0.95",
-                letterSpacing: "var(--tracking-display)",
-                color: "var(--text-primary)",
+                fontFamily: "var(--font-serif)",
+                fontWeight: 700,
+                fontSize: "clamp(2.75rem, 6.5vw, 5rem)",
+                lineHeight: "1.05",
+                letterSpacing: "-0.02em",
+                color: "#FFFFFF",
                 margin: "0 0 1.5rem",
-                textTransform: "uppercase",
               }}
             >
-              Let's Build <br />
-              <span style={{ color: "var(--clr-branding)" }}>Something Great.</span>
+              Let's Build Something <br />
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #FFFFFF 20%, #E5B842 70%, #D4A024 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Category-Defining.
+              </span>
             </h1>
             <p
               style={{
-                fontFamily: "var(--font-body)",
-                fontSize: "clamp(1.0625rem, 1.5vw, 1.25rem)",
-                lineHeight: "1.65",
-                color: "var(--text-secondary)",
+                fontFamily: "var(--font-fine)",
+                fontSize: "clamp(1rem, 1.35vw, 1.1875rem)",
+                lineHeight: "1.7",
+                color: "#94A3B8",
                 margin: 0,
+                maxWidth: "650px",
               }}
             >
-              We partner with ambitious founders, brand leaders, and enterprises. Share a few details about your objectives and our partners will reply with actionable perspective within 24 hours.
+              We partner with visionary founders, enterprise leadership, and category disruptors. Share your objectives below and our executive creative directors will respond within 24 hours.
             </p>
           </div>
         </div>
@@ -147,107 +205,171 @@ export default function Contact() {
       {/* ══════════════════════════════════════════
           CONTACT FORM & STUDIO DETAILS
       ══════════════════════════════════════════ */}
-      <section className="section" style={{ backgroundColor: "var(--surface-1)" }}>
+      <section className="section" style={{ backgroundColor: "#06080D", position: "relative" }}>
         <div className="container">
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "4rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "3.5rem",
               alignItems: "start",
             }}
           >
-            {/* Form Column */}
+            {/* ─── Left Column: High-End Inquiry Form ─── */}
             <div
               style={{
-                backgroundColor: "var(--surface-2)",
-                border: "1px solid var(--border-default)",
-                borderRadius: "var(--radius-xl)",
+                background: "linear-gradient(165deg, rgba(20, 27, 41, 0.88) 0%, rgba(10, 14, 24, 0.98) 100%)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "1.5rem",
                 padding: "clamp(2rem, 4vw, 3rem)",
+                boxShadow: "0 24px 64px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 50px rgba(13, 82, 156, 0.12)",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
+              {/* Golden Ambient Top Highlight Line */}
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "10%",
+                  right: "10%",
+                  height: "2px",
+                  background: "linear-gradient(90deg, transparent, #D4A024, #0D529C, transparent)",
+                }}
+              />
+
               {submitted ? (
-                <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
+                <div style={{ textAlign: "center", padding: "3.5rem 1.5rem" }}>
                   <div
                     style={{
-                      width: "4rem",
-                      height: "4rem",
+                      width: "4.5rem",
+                      height: "4.5rem",
                       borderRadius: "50%",
-                      backgroundColor: "rgba(5, 150, 105, 0.2)",
-                      border: "2px solid #34D399",
-                      color: "#34D399",
+                      background: "linear-gradient(135deg, rgba(212, 160, 36, 0.2) 0%, rgba(13, 82, 156, 0.25) 100%)",
+                      border: "2px solid #D4A024",
+                      color: "#E5B842",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      margin: "0 auto 1.5rem",
+                      margin: "0 auto 1.75rem",
+                      boxShadow: "0 0 30px rgba(212, 160, 36, 0.35)",
                     }}
                   >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 13L9 17L19 7" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 13L9 17L19 7" stroke="#E5B842" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                   <h3
                     style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 800,
-                      fontSize: "2rem",
-                      color: "var(--text-primary)",
-                      margin: "0 0 0.75rem",
+                      fontFamily: "var(--font-serif)",
+                      fontWeight: 700,
+                      fontSize: "2.25rem",
+                      color: "#FFFFFF",
+                      margin: "0 0 0.85rem",
                     }}
                   >
                     Inquiry Received.
                   </h3>
                   <p
                     style={{
-                      fontFamily: "var(--font-body)",
+                      fontFamily: "var(--font-fine)",
                       fontSize: "1rem",
-                      lineHeight: "1.6",
-                      color: "var(--text-secondary)",
-                      maxWidth: "40ch",
-                      margin: "0 auto 2rem",
+                      lineHeight: "1.7",
+                      color: "#94A3B8",
+                      maxWidth: "42ch",
+                      margin: "0 auto 2.25rem",
                     }}
                   >
-                    Thank you, {formData.name}. Our strategy leadership is reviewing your brief and will respond within 24 hours.
+                    Thank you, <strong style={{ color: "#FFFFFF" }}>{formData.name}</strong>. Our executive strategy team is reviewing your brief and will contact you within 24 business hours.
                   </p>
                   <button
                     onClick={() => {
                       setSubmitted(false);
                       setFormData({ name: "", email: "", company: "", message: "" });
-                      setSelectedServices([]);
+                      setSelectedServices(["Branding Solutions"]);
                     }}
                     style={{
-                      backgroundColor: "transparent",
-                      border: "1px solid var(--border-default)",
-                      borderRadius: "var(--radius-sm)",
-                      padding: "0.75rem 1.5rem",
-                      color: "var(--text-primary)",
+                      background: "rgba(255, 255, 255, 0.05)",
+                      border: "1px solid rgba(255, 255, 255, 0.15)",
+                      borderRadius: "9999px",
+                      padding: "0.85rem 2rem",
+                      color: "#FFFFFF",
                       fontFamily: "var(--font-fine)",
-                      fontSize: "0.8125rem",
+                      fontSize: "0.875rem",
                       fontWeight: 600,
                       cursor: "pointer",
+                      transition: "all 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "var(--clr-gold)";
+                      e.currentTarget.style.color = "var(--clr-gold-light)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                      e.currentTarget.style.color = "#FFFFFF";
                     }}
                   >
-                    Send Another Message
+                    Send Another Strategic Inquiry
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-                  {/* Service selector */}
+                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2.25rem" }}>
+                  {/* STEP 1: CAPABILITIES */}
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontFamily: "var(--font-fine)",
-                        fontSize: "var(--text-xs)",
-                        fontWeight: 700,
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        color: "var(--text-muted)",
-                        marginBottom: "0.875rem",
-                      }}
-                    >
-                      1. What capabilities do you require? (Select all that apply)
-                    </label>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                        <span
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "6px",
+                            backgroundColor: "rgba(212, 160, 36, 0.15)",
+                            color: "var(--clr-gold)",
+                            fontSize: "0.75rem",
+                            fontWeight: 800,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontFamily: "var(--font-fine)",
+                            border: "1px solid rgba(212, 160, 36, 0.35)",
+                          }}
+                        >
+                          1
+                        </span>
+                        <label
+                          style={{
+                            fontFamily: "var(--font-fine)",
+                            fontSize: "0.8125rem",
+                            fontWeight: 700,
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            color: "#E2E8F0",
+                          }}
+                        >
+                          What capabilities do you require?
+                        </label>
+                      </div>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.6875rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          color: "var(--clr-gold)",
+                          backgroundColor: "rgba(212, 160, 36, 0.1)",
+                          padding: "0.2rem 0.6rem",
+                          borderRadius: "4px",
+                          border: "1px solid rgba(212, 160, 36, 0.25)",
+                        }}
+                      >
+                        Select Multiple
+                      </span>
+                    </div>
+
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                       {SERVICES_LIST.map((s) => {
                         const isSelected = selectedServices.includes(s);
@@ -257,19 +379,52 @@ export default function Contact() {
                             key={s}
                             onClick={() => toggleService(s)}
                             style={{
-                              backgroundColor: isSelected ? "var(--clr-branding)" : "var(--surface-3)",
-                              color: isSelected ? "#fff" : "var(--text-secondary)",
-                              border: `1px solid ${isSelected ? "var(--clr-branding)" : "var(--border-subtle)"}`,
-                              borderRadius: "var(--radius-xs)",
-                              padding: "0.45rem 0.875rem",
+                              background: isSelected
+                                ? "linear-gradient(135deg, #0D529C 0%, #1E40AF 100%)"
+                                : "rgba(255, 255, 255, 0.03)",
+                              color: isSelected ? "#FFFFFF" : "#94A3B8",
+                              border: `1px solid ${
+                                isSelected ? "#D4A024" : "rgba(255, 255, 255, 0.09)"
+                              }`,
+                              borderRadius: "8px",
+                              padding: "0.55rem 0.95rem",
                               fontFamily: "var(--font-fine)",
-                              fontSize: "0.75rem",
-                              fontWeight: 600,
+                              fontSize: "0.8125rem",
+                              fontWeight: isSelected ? 600 : 500,
                               cursor: "pointer",
-                              transition: "all var(--ease-fast)",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "0.45rem",
+                              boxShadow: isSelected
+                                ? "0 4px 16px rgba(13, 82, 156, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
+                                : "none",
+                              transition: "all 0.18s cubic-bezier(0.4, 0, 0.2, 1)",
+                              transform: isSelected ? "translateY(-1px)" : "none",
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = "rgba(13, 82, 156, 0.6)";
+                                e.currentTarget.style.color = "#FFFFFF";
+                                e.currentTarget.style.backgroundColor = "rgba(13, 82, 156, 0.12)";
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isSelected) {
+                                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.09)";
+                                e.currentTarget.style.color = "#94A3B8";
+                                e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.03)";
+                              }
                             }}
                           >
-                            {isSelected ? "✓ " : "+ "}
+                            <span
+                              style={{
+                                color: isSelected ? "var(--clr-gold)" : "#64748B",
+                                fontWeight: 800,
+                                fontSize: "0.85rem",
+                              }}
+                            >
+                              {isSelected ? "✓" : "+"}
+                            </span>
                             {s}
                           </button>
                         );
@@ -277,220 +432,673 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  {/* Budget selector */}
+                  {/* STEP 2: BUDGET SELECTOR */}
                   <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontFamily: "var(--font-fine)",
-                        fontSize: "var(--text-xs)",
-                        fontWeight: 700,
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        color: "var(--text-muted)",
-                        marginBottom: "0.875rem",
-                      }}
-                    >
-                      2. Estimated Project or Monthly Budget
-                    </label>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1rem" }}>
+                      <span
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          borderRadius: "6px",
+                          backgroundColor: "rgba(212, 160, 36, 0.15)",
+                          color: "var(--clr-gold)",
+                          fontSize: "0.75rem",
+                          fontWeight: 800,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontFamily: "var(--font-fine)",
+                          border: "1px solid rgba(212, 160, 36, 0.35)",
+                        }}
+                      >
+                        2
+                      </span>
+                      <label
+                        style={{
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.8125rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          color: "#E2E8F0",
+                        }}
+                      >
+                        Estimated Project or Monthly Budget
+                      </label>
+                    </div>
+
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                      {BUDGET_RANGES.map((b) => (
-                        <button
-                          type="button"
-                          key={b}
-                          onClick={() => setSelectedBudget(b)}
-                          style={{
-                            backgroundColor: selectedBudget === b ? "var(--surface-4)" : "var(--surface-3)",
-                            color: selectedBudget === b ? "var(--text-primary)" : "var(--text-muted)",
-                            border: `1px solid ${selectedBudget === b ? "var(--clr-branding)" : "var(--border-subtle)"}`,
-                            borderRadius: "var(--radius-xs)",
-                            padding: "0.45rem 0.875rem",
-                            fontFamily: "var(--font-fine)",
-                            fontSize: "0.75rem",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                          }}
-                        >
-                          {b}
-                        </button>
-                      ))}
+                      {BUDGET_RANGES.map((b) => {
+                        const isBudgetSelected = selectedBudget === b;
+                        return (
+                          <button
+                            type="button"
+                            key={b}
+                            onClick={() => setSelectedBudget(b)}
+                            style={{
+                              background: isBudgetSelected
+                                ? "linear-gradient(135deg, rgba(212, 160, 36, 0.18) 0%, rgba(13, 82, 156, 0.22) 100%)"
+                                : "rgba(255, 255, 255, 0.03)",
+                              color: isBudgetSelected ? "#FFFFFF" : "#94A3B8",
+                              border: `1px solid ${
+                                isBudgetSelected ? "var(--clr-gold)" : "rgba(255, 255, 255, 0.09)"
+                              }`,
+                              borderRadius: "8px",
+                              padding: "0.55rem 1rem",
+                              fontFamily: "var(--font-fine)",
+                              fontSize: "0.8125rem",
+                              fontWeight: isBudgetSelected ? 700 : 500,
+                              cursor: "pointer",
+                              boxShadow: isBudgetSelected
+                                ? "0 0 20px rgba(212, 160, 36, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
+                                : "none",
+                              transition: "all 0.18s ease",
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!isBudgetSelected) {
+                                e.currentTarget.style.borderColor = "rgba(212, 160, 36, 0.4)";
+                                e.currentTarget.style.color = "#FFFFFF";
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isBudgetSelected) {
+                                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.09)";
+                                e.currentTarget.style.color = "#94A3B8";
+                              }
+                            }}
+                          >
+                            {b}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
-                  {/* Contact inputs */}
+                  {/* STEP 3: CONTACT INPUTS */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                    <label
-                      style={{
-                        fontFamily: "var(--font-fine)",
-                        fontSize: "var(--text-xs)",
-                        fontWeight: 700,
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        color: "var(--text-muted)",
-                      }}
-                    >
-                      3. Your Contact Details
-                    </label>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                      <span
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          borderRadius: "6px",
+                          backgroundColor: "rgba(212, 160, 36, 0.15)",
+                          color: "var(--clr-gold)",
+                          fontSize: "0.75rem",
+                          fontWeight: 800,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontFamily: "var(--font-fine)",
+                          border: "1px solid rgba(212, 160, 36, 0.35)",
+                        }}
+                      >
+                        3
+                      </span>
+                      <label
+                        style={{
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.8125rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          color: "#E2E8F0",
+                        }}
+                      >
+                        Your Contact &amp; Brand Details
+                      </label>
+                    </div>
 
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Your Name *"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        style={{
-                          backgroundColor: "var(--surface-3)",
-                          border: "1px solid var(--border-default)",
-                          borderRadius: "var(--radius-sm)",
-                          padding: "0.875rem 1.125rem",
-                          color: "var(--text-primary)",
-                          fontFamily: "var(--font-body)",
-                          fontSize: "0.9375rem",
-                          outline: "none",
-                        }}
-                      />
-                      <input
-                        type="email"
-                        required
-                        placeholder="Work Email *"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        style={{
-                          backgroundColor: "var(--surface-3)",
-                          border: "1px solid var(--border-default)",
-                          borderRadius: "var(--radius-sm)",
-                          padding: "0.875rem 1.125rem",
-                          color: "var(--text-primary)",
-                          fontFamily: "var(--font-body)",
-                          fontSize: "0.9375rem",
-                          outline: "none",
-                        }}
-                      />
+                      <div>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Your Full Name *"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          style={{
+                            width: "100%",
+                            boxSizing: "border-box",
+                            backgroundColor: "rgba(10, 14, 24, 0.75)",
+                            border: "1px solid rgba(255, 255, 255, 0.12)",
+                            borderRadius: "10px",
+                            padding: "0.95rem 1.15rem",
+                            color: "#FFFFFF",
+                            fontFamily: "var(--font-fine)",
+                            fontSize: "0.9375rem",
+                            outline: "none",
+                            transition: "all 0.2s ease",
+                          }}
+                          onFocus={(e) => {
+                            e.currentTarget.style.borderColor = "var(--clr-gold)";
+                            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(212, 160, 36, 0.2)";
+                          }}
+                          onBlur={(e) => {
+                            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
+                            e.currentTarget.style.boxShadow = "none";
+                          }}
+                        />
+                      </div>
+
+                      <div>
+                        <input
+                          type="email"
+                          required
+                          placeholder="Work Email Address *"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          style={{
+                            width: "100%",
+                            boxSizing: "border-box",
+                            backgroundColor: "rgba(10, 14, 24, 0.75)",
+                            border: "1px solid rgba(255, 255, 255, 0.12)",
+                            borderRadius: "10px",
+                            padding: "0.95rem 1.15rem",
+                            color: "#FFFFFF",
+                            fontFamily: "var(--font-fine)",
+                            fontSize: "0.9375rem",
+                            outline: "none",
+                            transition: "all 0.2s ease",
+                          }}
+                          onFocus={(e) => {
+                            e.currentTarget.style.borderColor = "var(--clr-gold)";
+                            e.currentTarget.style.boxShadow = "0 0 0 3px rgba(212, 160, 36, 0.2)";
+                          }}
+                          onBlur={(e) => {
+                            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
+                            e.currentTarget.style.boxShadow = "none";
+                          }}
+                        />
+                      </div>
                     </div>
 
                     <input
                       type="text"
-                      placeholder="Company / Brand Name"
+                      placeholder="Company or Brand Name (e.g. Apex Global, D2C Venture)"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                       style={{
-                        backgroundColor: "var(--surface-3)",
-                        border: "1px solid var(--border-default)",
-                        borderRadius: "var(--radius-sm)",
-                        padding: "0.875rem 1.125rem",
-                        color: "var(--text-primary)",
-                        fontFamily: "var(--font-body)",
+                        width: "100%",
+                        boxSizing: "border-box",
+                        backgroundColor: "rgba(10, 14, 24, 0.75)",
+                        border: "1px solid rgba(255, 255, 255, 0.12)",
+                        borderRadius: "10px",
+                        padding: "0.95rem 1.15rem",
+                        color: "#FFFFFF",
+                        fontFamily: "var(--font-fine)",
                         fontSize: "0.9375rem",
                         outline: "none",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = "var(--clr-gold)";
+                        e.currentTarget.style.boxShadow = "0 0 0 3px rgba(212, 160, 36, 0.2)";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
+                        e.currentTarget.style.boxShadow = "none";
                       }}
                     />
 
                     <textarea
                       rows={4}
-                      placeholder="Tell us about the project, goals, or timeline..."
+                      placeholder="Tell us about your brand challenge, current metrics, and key milestones..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       style={{
-                        backgroundColor: "var(--surface-3)",
-                        border: "1px solid var(--border-default)",
-                        borderRadius: "var(--radius-sm)",
-                        padding: "0.875rem 1.125rem",
-                        color: "var(--text-primary)",
-                        fontFamily: "var(--font-body)",
+                        width: "100%",
+                        boxSizing: "border-box",
+                        backgroundColor: "rgba(10, 14, 24, 0.75)",
+                        border: "1px solid rgba(255, 255, 255, 0.12)",
+                        borderRadius: "10px",
+                        padding: "0.95rem 1.15rem",
+                        color: "#FFFFFF",
+                        fontFamily: "var(--font-fine)",
                         fontSize: "0.9375rem",
                         outline: "none",
                         resize: "vertical",
+                        transition: "all 0.2s ease",
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = "var(--clr-gold)";
+                        e.currentTarget.style.boxShadow = "0 0 0 3px rgba(212, 160, 36, 0.2)";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
+                        e.currentTarget.style.boxShadow = "none";
                       }}
                     />
                   </div>
 
-                  <Button type="submit" variant="primary" size="lg" accent="var(--clr-branding)">
-                    Submit Strategic Inquiry
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  {/* High-Impact Luxury Submit Button */}
+                  <button
+                    type="submit"
+                    style={{
+                      width: "100%",
+                      background: "linear-gradient(135deg, #0D529C 0%, #1D4ED8 100%)",
+                      border: "1px solid rgba(212, 160, 36, 0.6)",
+                      borderRadius: "12px",
+                      padding: "1.15rem 2rem",
+                      color: "#FFFFFF",
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "0.9375rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "0.75rem",
+                      boxShadow: "0 12px 36px rgba(13, 82, 156, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)",
+                      transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 18px 48px rgba(13, 82, 156, 0.6), 0 0 30px rgba(212, 160, 36, 0.45)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 12px 36px rgba(13, 82, 156, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)";
+                    }}
+                  >
+                    <span>Submit Strategic Inquiry</span>
+                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="#E5B842" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </Button>
+                  </button>
                 </form>
               )}
             </div>
 
-            {/* Studio info & SLA */}
+            {/* ─── Right Column: Direct Line & Studio Access ─── */}
             <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
               <div>
                 <SectionHeading
-                  eyebrow="Direct Line"
+                  eyebrow="Direct Executive Line"
                   title="Direct Access to Creative Directors"
-                  subtitle="We skip junior account layers. When you engage Rocklike, you collaborate directly with seasoned practitioners."
-                  accent="var(--clr-branding)"
+                  subtitle="We skip junior account layers. When you engage Rocklike, you collaborate directly with seasoned executive practitioners."
+                  accent="var(--clr-gold)"
                 />
               </div>
 
-              {/* Contact blocks */}
+              {/* Studio Info Card */}
               <div
                 style={{
-                  backgroundColor: "var(--surface-2)",
-                  border: "1px solid var(--border-default)",
-                  borderRadius: "var(--radius-lg)",
+                  background: "linear-gradient(165deg, rgba(20, 27, 41, 0.75) 0%, rgba(10, 14, 24, 0.92) 100%)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "1.25rem",
                   padding: "2rem",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "1.5rem",
+                  gap: "1.75rem",
+                  boxShadow: "0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
                 }}
               >
-                <div>
-                  <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.6875rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "0.35rem" }}>
-                    General &amp; New Business
-                  </div>
-                  <a
-                    href="mailto:hello@rocklike.co"
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 800,
-                      fontSize: "1.5rem",
-                      color: "var(--clr-branding)",
-                      textDecoration: "none",
-                    }}
-                  >
-                    hello@rocklike.co
-                  </a>
-                </div>
-
-                <hr className="divider" />
-
-                <div>
-                  <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.6875rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "0.35rem" }}>
-                    Mumbai Studio
-                  </div>
-                  <p style={{ fontFamily: "var(--font-body)", fontSize: "0.9375rem", color: "var(--text-secondary)", margin: 0 }}>
-                    Rocklike Techventures Studio, BKC G-Block, Mumbai 400051
-                  </p>
-                </div>
-
-                <div>
-                  <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.6875rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", marginBottom: "0.35rem" }}>
-                    Bengaluru Hub
-                  </div>
-                  <p style={{ fontFamily: "var(--font-body)", fontSize: "0.9375rem", color: "var(--text-secondary)", margin: 0 }}>
-                    Indiranagar 100ft Road, Bengaluru 560038
-                  </p>
-                </div>
-
+                {/* Live Availability Badge */}
                 <div
                   style={{
-                    backgroundColor: "rgba(224,53,53,0.08)",
-                    border: "1px solid rgba(224,53,53,0.25)",
-                    borderRadius: "var(--radius-sm)",
-                    padding: "1rem",
                     display: "flex",
                     alignItems: "center",
-                    gap: "0.75rem",
+                    gap: "0.6rem",
+                    padding: "0.5rem 0.85rem",
+                    borderRadius: "9999px",
+                    backgroundColor: "rgba(5, 150, 105, 0.12)",
+                    border: "1px solid rgba(16, 185, 129, 0.3)",
+                    width: "fit-content",
                   }}
                 >
-                  <span style={{ fontSize: "1.25rem" }}>⚡</span>
-                  <span style={{ fontFamily: "var(--font-fine)", fontSize: "0.8125rem", color: "var(--text-primary)", fontWeight: 600 }}>
-                    Guaranteed response within 24 business hours.
+                  <span
+                    style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      backgroundColor: "#10B981",
+                      boxShadow: "0 0 10px #10B981",
+                      animation: "pulse 2s infinite",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "0.6875rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: "#34D399",
+                    }}
+                  >
+                    Partners Accepting Q2 / Q3 Engagements
                   </span>
+                </div>
+
+                {/* Direct Contact Details: Email & Phone */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                  {/* Primary Direct Email */}
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.6875rem",
+                        fontWeight: 700,
+                        color: "var(--clr-gold)",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.1em",
+                        marginBottom: "0.4rem",
+                      }}
+                    >
+                      Official Inquiry &amp; Briefs
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", flexWrap: "wrap" }}>
+                      <a
+                        href="mailto:rocklike.tech@gmail.com"
+                        style={{
+                          fontFamily: "var(--font-fine)",
+                          fontWeight: 700,
+                          fontSize: "1.25rem",
+                          color: "#FFFFFF",
+                          textDecoration: "none",
+                          letterSpacing: "-0.01em",
+                          transition: "color 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--clr-gold)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#FFFFFF")}
+                      >
+                        rocklike.tech@gmail.com
+                      </a>
+                      <button
+                        type="button"
+                        onClick={handleCopyGmail}
+                        style={{
+                          background: "rgba(255, 255, 255, 0.05)",
+                          border: "1px solid rgba(255, 255, 255, 0.15)",
+                          borderRadius: "6px",
+                          padding: "0.25rem 0.6rem",
+                          color: copiedGmail ? "var(--clr-gold)" : "#94A3B8",
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.6875rem",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.35rem",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        {copiedGmail ? "✓ Copied" : "Copy"}
+                      </button>
+                    </div>
+                    <div style={{ marginTop: "0.35rem" }}>
+                      <a
+                        href="mailto:hello@rocklike.co"
+                        style={{
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.8125rem",
+                          color: "#94A3B8",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Or executive desk: <span style={{ color: "#E2E8F0", textDecoration: "underline" }}>hello@rocklike.co</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Direct Phone & WhatsApp */}
+                  <div
+                    style={{
+                      background: "rgba(255, 255, 255, 0.03)",
+                      border: "1px solid rgba(255, 255, 255, 0.08)",
+                      borderRadius: "10px",
+                      padding: "1rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.6875rem",
+                        fontWeight: 700,
+                        color: "#94A3B8",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.1em",
+                        marginBottom: "0.4rem",
+                      }}
+                    >
+                      Direct Phone &amp; Instant WhatsApp
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap", marginBottom: "0.75rem" }}>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-fine)",
+                          fontWeight: 800,
+                          fontSize: "1.375rem",
+                          color: "#FFFFFF",
+                          letterSpacing: "0.02em",
+                        }}
+                      >
+                        +91 9175339499
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCopyPhone}
+                        style={{
+                          background: "rgba(255, 255, 255, 0.06)",
+                          border: "1px solid rgba(255, 255, 255, 0.15)",
+                          borderRadius: "6px",
+                          padding: "0.25rem 0.6rem",
+                          color: copiedPhone ? "var(--clr-gold)" : "#94A3B8",
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.6875rem",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {copiedPhone ? "✓ Copied" : "Copy"}
+                      </button>
+                    </div>
+
+                    <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                      <a
+                        href="tel:+919175339499"
+                        style={{
+                          backgroundColor: "rgba(212, 160, 36, 0.15)",
+                          border: "1px solid rgba(212, 160, 36, 0.4)",
+                          color: "var(--clr-gold)",
+                          padding: "0.45rem 0.85rem",
+                          borderRadius: "6px",
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.75rem",
+                          fontWeight: 700,
+                          textDecoration: "none",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.4rem",
+                        }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        </svg>
+                        Call Studio
+                      </a>
+                      <a
+                        href="https://wa.me/919175339499"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          backgroundColor: "rgba(37, 211, 102, 0.15)",
+                          border: "1px solid rgba(37, 211, 102, 0.35)",
+                          color: "#4ADE80",
+                          padding: "0.45rem 0.85rem",
+                          borderRadius: "6px",
+                          fontFamily: "var(--font-fine)",
+                          fontSize: "0.75rem",
+                          fontWeight: 700,
+                          textDecoration: "none",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.4rem",
+                        }}
+                      >
+                        WhatsApp Direct ↗
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <hr style={{ border: "none", borderTop: "1px solid rgba(255, 255, 255, 0.08)", margin: 0 }} />
+
+                {/* Satara Technology & Operations Campus */}
+                <div style={{ display: "flex", gap: "0.85rem", alignItems: "flex-start" }}>
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(212, 160, 36, 0.15)",
+                      border: "1px solid rgba(212, 160, 36, 0.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "var(--clr-gold)",
+                      flexShrink: 0,
+                    }}
+                  >
+                    📍
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        color: "var(--clr-gold)",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        marginBottom: "0.2rem",
+                      }}
+                    >
+                      Satara Technology Hub &amp; Campus
+                    </div>
+                    <p style={{ fontFamily: "var(--font-fine)", fontSize: "0.875rem", color: "#E2E8F0", lineHeight: "1.5", margin: 0 }}>
+                      Satara IT-Park Online Exam Centre, Old MIDC <br />
+                      <span style={{ fontSize: "0.75rem", color: "#94A3B8" }}>Opp. LIC Divisional Office, Satara, Maharashtra 415004</span>
+                    </p>
+                    <a
+                      href="#location-map"
+                      style={{
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: "var(--clr-gold)",
+                        textDecoration: "underline",
+                        display: "inline-block",
+                        marginTop: "0.4rem",
+                      }}
+                    >
+                      View Satellite &amp; Road Map Below ↓
+                    </a>
+                  </div>
+                </div>
+
+                {/* Mumbai Studio */}
+                <div style={{ display: "flex", gap: "0.85rem", alignItems: "flex-start" }}>
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(13, 82, 156, 0.15)",
+                      border: "1px solid rgba(13, 82, 156, 0.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#60A5FA",
+                      flexShrink: 0,
+                    }}
+                  >
+                    🎬
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        color: "#FFFFFF",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        marginBottom: "0.2rem",
+                      }}
+                    >
+                      Mumbai Flagship Studio
+                    </div>
+                    <p style={{ fontFamily: "var(--font-fine)", fontSize: "0.875rem", color: "#94A3B8", lineHeight: "1.5", margin: 0 }}>
+                      Rocklike Techventures Studio, BKC G-Block, Mumbai 400051 <br />
+                      <span style={{ fontSize: "0.75rem", color: "#64748B" }}>Creative Direction &amp; Cinema Production</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bengaluru Hub */}
+                <div style={{ display: "flex", gap: "0.85rem", alignItems: "flex-start" }}>
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "8px",
+                      backgroundColor: "rgba(255, 255, 255, 0.06)",
+                      border: "1px solid rgba(255, 255, 255, 0.12)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#94A3B8",
+                      flexShrink: 0,
+                    }}
+                  >
+                    🏢
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        color: "#FFFFFF",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        marginBottom: "0.2rem",
+                      }}
+                    >
+                      Bengaluru Technology Hub
+                    </div>
+                    <p style={{ fontFamily: "var(--font-fine)", fontSize: "0.875rem", color: "#94A3B8", lineHeight: "1.5", margin: 0 }}>
+                      Indiranagar 100ft Road, Bengaluru 560038 <br />
+                      <span style={{ fontSize: "0.75rem", color: "#64748B" }}>Technology Engineering &amp; Media Scaling</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* SLA Response Guarantee */}
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, rgba(212, 160, 36, 0.12) 0%, rgba(13, 82, 156, 0.1) 100%)",
+                    border: "1px solid rgba(212, 160, 36, 0.35)",
+                    borderRadius: "10px",
+                    padding: "1rem 1.15rem",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.85rem",
+                  }}
+                >
+                  <span style={{ fontSize: "1.25rem", color: "var(--clr-gold)" }}>⚡</span>
+                  <div>
+                    <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.8125rem", color: "#FFFFFF", fontWeight: 700 }}>
+                      Guaranteed Response SLA
+                    </div>
+                    <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.75rem", color: "#CBD5E1", marginTop: "0.15rem" }}>
+                      Direct partner response within 24 business hours.
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -498,60 +1106,315 @@ export default function Contact() {
               <div>
                 <h4
                   style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 800,
-                    fontSize: "1.25rem",
-                    color: "var(--text-primary)",
-                    margin: "0 0 1rem",
+                    fontFamily: "var(--font-fine)",
+                    fontWeight: 700,
+                    fontSize: "1.125rem",
+                    color: "#FFFFFF",
+                    letterSpacing: "-0.01em",
+                    margin: "0 0 1.25rem",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
                   }}
                 >
-                  Frequently Asked Questions
+                  <span style={{ color: "var(--clr-gold)" }}>✦</span> Frequently Asked Questions
                 </h4>
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                  {FAQS.map((faq, i) => (
-                    <div
-                      key={faq.q}
-                      style={{
-                        backgroundColor: "var(--surface-2)",
-                        border: "1px solid var(--border-default)",
-                        borderRadius: "var(--radius-sm)",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <button
-                        onClick={() => setActiveFaq(activeFaq === i ? null : i)}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {FAQS.map((faq, i) => {
+                    const isOpen = activeFaq === i;
+                    return (
+                      <div
+                        key={faq.q}
                         style={{
-                          width: "100%",
-                          textAlign: "left",
-                          padding: "1rem 1.25rem",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          color: "var(--text-primary)",
-                          fontFamily: "var(--font-fine)",
-                          fontSize: "0.875rem",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          gap: "1rem",
+                          background: "rgba(20, 27, 41, 0.6)",
+                          border: `1px solid ${isOpen ? "rgba(212, 160, 36, 0.4)" : "rgba(255, 255, 255, 0.08)"}`,
+                          borderRadius: "10px",
+                          overflow: "hidden",
+                          transition: "all 0.2s ease",
                         }}
                       >
-                        <span>{faq.q}</span>
-                        <span style={{ color: "var(--clr-branding)", fontWeight: 700 }}>
-                          {activeFaq === i ? "−" : "+"}
-                        </span>
-                      </button>
-                      {activeFaq === i && (
-                        <div style={{ padding: "0 1.25rem 1.25rem", borderTop: "1px solid var(--border-subtle)" }}>
-                          <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--text-secondary)", lineHeight: "1.6", margin: "0.75rem 0 0" }}>
-                            {faq.a}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                        <button
+                          onClick={() => setActiveFaq(isOpen ? null : i)}
+                          style={{
+                            width: "100%",
+                            textAlign: "left",
+                            padding: "1.1rem 1.25rem",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            color: isOpen ? "#FFFFFF" : "#E2E8F0",
+                            fontFamily: "var(--font-fine)",
+                            fontSize: "0.875rem",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            gap: "1rem",
+                          }}
+                        >
+                          <span>{faq.q}</span>
+                          <span
+                            style={{
+                              color: "var(--clr-gold)",
+                              fontWeight: 800,
+                              fontSize: "1.1rem",
+                              transition: "transform 0.2s ease",
+                              transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                            }}
+                          >
+                            +
+                          </span>
+                        </button>
+                        {isOpen && (
+                          <div style={{ padding: "0 1.25rem 1.25rem", borderTop: "1px solid rgba(255, 255, 255, 0.05)" }}>
+                            <p
+                              style={{
+                                fontFamily: "var(--font-fine)",
+                                fontSize: "0.875rem",
+                                color: "#94A3B8",
+                                lineHeight: "1.65",
+                                margin: "0.75rem 0 0",
+                              }}
+                            >
+                              {faq.a}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          SATARA CAMPUS LOCATION MAP
+      ══════════════════════════════════════════ */}
+      <section
+        id="location-map"
+        className="section"
+        style={{
+          backgroundColor: "#070A10",
+          borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+          position: "relative",
+          paddingTop: "4.5rem",
+          paddingBottom: "5rem",
+        }}
+      >
+        <div className="container">
+          <div style={{ maxWidth: "800px", marginBottom: "2.5rem" }}>
+            <SectionHeading
+              eyebrow="Campus &amp; Physical Presence"
+              title="Visit Rocklike Studio in Satara"
+              subtitle="Headquartered at Satara IT-Park, Old MIDC (opposite LIC Divisional Office). Meet our leadership, explore our studio space, and brainstorm high-impact growth strategies."
+              accent="var(--clr-gold)"
+              size="sm"
+            />
+          </div>
+
+          {/* Map Frame matching User Reference Image */}
+          <div
+            style={{
+              position: "relative",
+              borderRadius: "1.25rem",
+              overflow: "hidden",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              boxShadow: "0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+              backgroundColor: "#0F172A",
+            }}
+          >
+            {/* Top-Left Floating 'Open in Maps ↗' button matching user screenshot */}
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Satara+IT-Park+Online+Exam+Centre+Satara"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                position: "absolute",
+                top: "1.25rem",
+                left: "1.25rem",
+                zIndex: 20,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                backgroundColor: "rgba(15, 23, 42, 0.92)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                color: "#FFFFFF",
+                padding: "0.6rem 1.1rem",
+                borderRadius: "8px",
+                fontFamily: "var(--font-fine)",
+                fontSize: "0.8125rem",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                textDecoration: "none",
+                boxShadow: "0 6px 20px rgba(0,0,0,0.5)",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(30, 41, 59, 0.98)";
+                e.currentTarget.style.borderColor = "var(--clr-gold)";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(15, 23, 42, 0.92)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <span>Open in Maps</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </a>
+
+            {/* Embedded Google Map */}
+            <div style={{ position: "relative", width: "100%", height: "520px", background: "#1E293B" }}>
+              <iframe
+                title="Rocklike Satara Location Map"
+                src="https://maps.google.com/maps?q=Satara+IT-Park+Online+Exam+Centre,Satara,Maharashtra&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style={{
+                  border: 0,
+                  filter: "contrast(102%) brightness(95%)",
+                  display: "block",
+                }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            {/* Location Details Bottom Bar */}
+            <div
+              style={{
+                backgroundColor: "rgba(10, 14, 24, 0.96)",
+                borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+                padding: "1.5rem 2rem",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: "1.5rem",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-gold)",
+                    marginBottom: "0.35rem",
+                  }}
+                >
+                  Campus Address
+                </div>
+                <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.9375rem", fontWeight: 600, color: "#FFFFFF" }}>
+                  Satara IT-Park Online Exam Centre &amp; Tech Hub
+                </div>
+                <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.8125rem", color: "#94A3B8", marginTop: "0.2rem" }}>
+                  Old MIDC Area, Opp. LIC Divisional Office, Satara, Maharashtra 415004
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--clr-gold)",
+                    marginBottom: "0.35rem",
+                  }}
+                >
+                  Direct Contact &amp; Hours
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+                  <a
+                    href="tel:+919175339499"
+                    style={{
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "0.9375rem",
+                      fontWeight: 700,
+                      color: "#FFFFFF",
+                      textDecoration: "none",
+                    }}
+                  >
+                    +91 9175339499
+                  </a>
+                  <span style={{ color: "#475569" }}>·</span>
+                  <a
+                    href="mailto:rocklike.tech@gmail.com"
+                    style={{
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "0.875rem",
+                      fontWeight: 500,
+                      color: "#CBD5E1",
+                      textDecoration: "none",
+                    }}
+                  >
+                    rocklike.tech@gmail.com
+                  </a>
+                </div>
+                <div style={{ fontFamily: "var(--font-fine)", fontSize: "0.75rem", color: "#64748B", marginTop: "0.25rem" }}>
+                  Mon – Sat: 09:30 AM – 07:30 PM IST · Visitors by Appointment
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-start", flexWrap: "wrap" }}>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=Satara+IT-Park+Online+Exam+Centre+Satara"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    backgroundColor: "var(--clr-gold)",
+                    color: "#07090E",
+                    padding: "0.75rem 1.25rem",
+                    borderRadius: "8px",
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.8125rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.04em",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.45rem",
+                    boxShadow: "0 4px 15px rgba(212, 160, 36, 0.25)",
+                  }}
+                >
+                  Get Directions ↗
+                </a>
+
+                <a
+                  href="https://wa.me/919175339499"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    backgroundColor: "rgba(37, 211, 102, 0.15)",
+                    border: "1px solid rgba(37, 211, 102, 0.4)",
+                    color: "#4ADE80",
+                    padding: "0.75rem 1.15rem",
+                    borderRadius: "8px",
+                    fontFamily: "var(--font-fine)",
+                    fontSize: "0.8125rem",
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.45rem",
+                  }}
+                >
+                  WhatsApp ↗
+                </a>
               </div>
             </div>
           </div>

@@ -23,10 +23,10 @@ const companyLinks = [
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Behance", href: "https://behance.net" },
-  { label: "Vimeo", href: "https://vimeo.com" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/rocklike-techventures/home/" },
+  { label: "Instagram", href: "https://www.instagram.com/rocklike.tech/?hl=en" },
+  { label: "Facebook", href: "https://www.facebook.com/rockliketech/" },
+  { label: "WhatsApp", href: "https://wa.me/919175339499" },
 ];
 
 export default function Footer() {
@@ -95,25 +95,81 @@ export default function Footer() {
               A creative agency and techventure studio building the brands, stories, and growth engines of tomorrow's market leaders.
             </p>
 
-            <a
-              href="mailto:hello@rocklike.co"
-              style={{
-                fontFamily: "var(--font-fine)",
-                fontSize: "0.8125rem",
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                color: "var(--clr-branding)",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              hello@rocklike.co
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2.5 9.5L9.5 2.5M9.5 2.5H5M9.5 2.5V7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem", margin: "0 0 1.25rem" }}>
+              <a
+                href="mailto:rocklike.tech@gmail.com"
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.04em",
+                  color: "var(--clr-gold)",
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+                rocklike.tech@gmail.com
+              </a>
+
+              <a
+                href="tel:+919175339499"
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.04em",
+                  color: "#94A3B8",
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  transition: "color 0.15s ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "#FFFFFF";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "#94A3B8";
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+                +91 9175339499
+              </a>
+
+              <Link
+                to="/contact#location-map"
+                style={{
+                  fontFamily: "var(--font-fine)",
+                  fontSize: "0.75rem",
+                  color: "#64748B",
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.45rem",
+                  marginTop: "0.25rem",
+                  transition: "color 0.15s ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "#F59E0B";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "#64748B";
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Satara IT-Park, MIDC, Satara, MH 415004 ↗
+              </Link>
+            </div>
           </div>
 
           {/* Col 2: Services */}

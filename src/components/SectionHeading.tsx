@@ -106,7 +106,7 @@ export default function SectionHeading({
           letterSpacing: "var(--tracking-display)",
           color: "var(--text-primary)",
           margin: 0,
-          maxWidth: isCenter ? "22ch" : "18ch",
+          maxWidth: isCenter ? "28ch" : "28ch",
         }}
       >
         {title}

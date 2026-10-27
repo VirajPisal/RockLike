@@ -142,7 +142,7 @@ export default function Navbar() {
     }
     closeTimeoutRef.current = setTimeout(() => {
       setServicesOpen(false);
-    }, 250);
+    }, 500);
   };
 
   const handleButtonClick = (e: React.MouseEvent) => {
@@ -730,21 +730,21 @@ export default function Navbar() {
         /* Services luxury mega-menu matching exact user reference mockup */
         .nav-services-dropdown {
           position: absolute;
-          top: calc(100% + 12px);
+          top: calc(100% + 4px);
           left: 50%;
           transform: translateX(-50%);
           z-index: 9999;
-          animation: dropdownIn 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+          animation: dropdownIn 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        /* Invisible bridge so cursor never drops when hovering down */
+        /* Wide invisible bridge so cursor never drops when hovering down or diagonally */
         .nav-services-dropdown::before {
           content: "";
           position: absolute;
-          top: -20px;
-          left: 0;
-          right: 0;
-          height: 26px;
+          top: -30px;
+          left: -120px;
+          right: -120px;
+          height: 45px;
           background: transparent;
         }
 

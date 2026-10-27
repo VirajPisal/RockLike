@@ -804,11 +804,12 @@ export default function Home() {
                 >
                   <span
                     style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "2rem",
-                      fontWeight: 900,
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "1.75rem",
+                      fontWeight: 800,
                       color: "var(--clr-gold)",
                       lineHeight: 1,
+                      letterSpacing: "-0.03em",
                     }}
                   >
                     {cap.num}
@@ -833,22 +834,23 @@ export default function Home() {
                 <div>
                   <h3
                     style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "1.45rem",
-                      fontWeight: 800,
-                      color: "#1C1917",
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                      color: "#0F172A",
                       marginBottom: "0.6rem",
-                      lineHeight: 1.15,
+                      lineHeight: 1.3,
+                      letterSpacing: "-0.015em",
                     }}
                   >
                     {cap.title}
                   </h3>
                   <p
                     style={{
-                      fontFamily: "var(--font-body)",
+                      fontFamily: "var(--font-fine)",
                       fontSize: "0.875rem",
-                      color: "var(--clr-ivory-muted)",
-                      lineHeight: 1.55,
+                      color: "#475569",
+                      lineHeight: 1.6,
                       margin: 0,
                     }}
                   >
@@ -866,7 +868,7 @@ export default function Home() {
                     fontSize: "0.75rem",
                     fontWeight: 700,
                     fontFamily: "var(--font-fine)",
-                    letterSpacing: "0.08em",
+                    letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     color: "var(--clr-royal-blue)",
                   }}
@@ -940,11 +942,12 @@ export default function Home() {
                 >
                   <span
                     style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "2rem",
-                      fontWeight: 900,
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "1.75rem",
+                      fontWeight: 800,
                       color: "var(--clr-gold)",
                       lineHeight: 1,
+                      letterSpacing: "-0.03em",
                     }}
                   >
                     {cap.num}
@@ -969,22 +972,23 @@ export default function Home() {
                 <div>
                   <h3
                     style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "1.45rem",
-                      fontWeight: 800,
-                      color: "#1C1917",
+                      fontFamily: "var(--font-fine)",
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                      color: "#0F172A",
                       marginBottom: "0.6rem",
-                      lineHeight: 1.15,
+                      lineHeight: 1.3,
+                      letterSpacing: "-0.015em",
                     }}
                   >
                     {cap.title}
                   </h3>
                   <p
                     style={{
-                      fontFamily: "var(--font-body)",
+                      fontFamily: "var(--font-fine)",
                       fontSize: "0.875rem",
-                      color: "var(--clr-ivory-muted)",
-                      lineHeight: 1.55,
+                      color: "#475569",
+                      lineHeight: 1.6,
                       margin: 0,
                     }}
                   >
@@ -1002,7 +1006,7 @@ export default function Home() {
                     fontSize: "0.75rem",
                     fontWeight: 700,
                     fontFamily: "var(--font-fine)",
-                    letterSpacing: "0.08em",
+                    letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     color: "var(--clr-royal-blue)",
                   }}
