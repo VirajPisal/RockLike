@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SectionHeading from "../components/SectionHeading";
+import { submitInquiry } from "../lib/supabase";
 
 const SERVICES_LIST = [
   "Branding Solutions",
@@ -81,10 +82,31 @@ export default function Contact() {
     setTimeout(() => setCopiedPhone(false), 2200);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email) return;
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError(null);
+
+    const res = await submitInquiry({
+      name: formData.name,
+      email: formData.email,
+      company: formData.company,
+      selected_services: selectedServices,
+      budget: selectedBudget,
+      message: formData.message,
+    });
+
+    setSubmitting(false);
+
+    if (res.success) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(res.error || "Unable to save inquiry. Please try again or reach out directly via rocklike.tech@gmail.com.");
+    }
   };
 
   return (
@@ -686,7 +708,8 @@ export default function Contact() {
                       fontWeight: 700,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
-                      cursor: "pointer",
+                      cursor: submitting ? "not-allowed" : "pointer",
+                      opacity: submitting ? 0.75 : 1,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -695,19 +718,42 @@ export default function Contact() {
                       transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 18px 48px rgba(13, 82, 156, 0.6), 0 0 30px rgba(212, 160, 36, 0.45)";
+                      if (!submitting) {
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 18px 48px rgba(13, 82, 156, 0.6), 0 0 30px rgba(212, 160, 36, 0.45)";
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = "0 12px 36px rgba(13, 82, 156, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)";
+                      if (!submitting) {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow = "0 12px 36px rgba(13, 82, 156, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25)";
+                      }
                     }}
                   >
-                    <span>Submit Strategic Inquiry</span>
-                    <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-                      <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="#E5B842" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <span>{submitting ? "Sending to Rocklike..." : "Submit Strategic Inquiry"}</span>
+                    {!submitting && (
+                      <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="#E5B842" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
                   </button>
+
+                  {submitError && (
+                    <div
+                      style={{
+                        padding: "0.85rem 1rem",
+                        backgroundColor: "rgba(239, 68, 68, 0.12)",
+                        border: "1px solid rgba(239, 68, 68, 0.35)",
+                        borderRadius: "8px",
+                        color: "#F87171",
+                        fontFamily: "var(--font-fine)",
+                        fontSize: "0.8125rem",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      {submitError}
+                    </div>
+                  )}
                 </form>
               )}
             </div>
